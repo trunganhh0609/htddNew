@@ -1,0 +1,12 @@
+<div class="mx-auto" style="width: 500px;">
+
+</div>
+<div class="modal-header">
+  <button type="button" class="btn-close" (click)="closePopup()">
+    <span aria-hidden="true"></span>
+  </button>
+</div>
+<div class="modal-body">
+  <ngx-qrcode width="500" [value]="value.toString()" errorCorrectionLevel="L">
+  </ngx-qrcode>
+</div>

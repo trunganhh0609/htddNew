@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <!-- <app-page-title title="Điểm danh" [breadcrumbItems="dsfsd"></app-page-title> -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2>Quản lý sinh viên trong lớp</h2>
+          <div class="row my-2">
+            <!-- <div class="col-md-10"></div> -->
+            <div class="col-md-12 text-end">
+              <button class="btn btn-success" (click)="addStudent()">Thêm sinh viên</button>
+            </div>
+          </div>
+          <p-table responsiveLayout="scroll" [value]="lstStudent" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            [rowHover]="true"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header">
+                <tr >
+                  <th>#</th>
+                  <th>Mã sinh viên</th>
+                  <th>Họ tên</th>
+                  <th>Ngày sinh</th>
+                  <th>Giới tính</th>
+                  <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr style="cursor: pointer;">
+                  <td> {{ i+1 }} </td>
+                  <td>{{ item.userName }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.birthDate | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ item.gender  === true ? "Nam" : "Nữ" }}</td>
+                  <td>
+                    <div>
+                      <i class="mx-1 bx bx-trash-alt fs-4 delete" (click)="delete(item)"></i>
+                    </div>
+                  </td>
+                </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

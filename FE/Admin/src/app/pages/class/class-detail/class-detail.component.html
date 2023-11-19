@@ -1,0 +1,64 @@
+<app-loader></app-loader>
+<div class="container-fluid">
+  <!-- <app-page-title title="Điểm danh" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
+      <div class="card">
+        <div class="card-body">
+          <h2>{{ classInfo.className }}</h2>
+          <div class="row my-4">
+            <div class="col-md-2">
+              <label>Buổi học</label>
+              <select class="form-select" [(ngModel)]="lesson" (change)="getClassInfo()">
+                <option *ngFor="let item of lstLesson" value="{{item}}">Buổi {{ item }}</option>
+            </select>
+            </div>
+            <div class="col-md-8"></div>
+            <div class="col-md-2">
+            </div>
+
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-10"></div>
+            <div class="col-2">
+              <!-- <div *ngIf="thisLesson <= lstLesson.length"  class="text-end"> -->
+                <div  class="text-end">
+                <button  class="btn btn-primary btn-rounded" (click)="openPopup('01-02')" >Điểm danh</button>
+                <button class="btn btn-warning btn-rounded m-2" style="margin-right: 0!important;" (click)="openPopup('01-03')">Điểm danh đi muộn</button>
+              </div>
+            </div>
+          </div>
+          <p-table responsiveLayout="scroll" [value]="dataTable" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          [rowsPerPageOptions]="[10,25,50]"
+          [rowHover]="true">
+          <ng-template pTemplate="header">
+              <tr >
+                <th>#</th>
+                <th>Mã sinh viên</th>
+                <th>Họ tên</th>
+                <th>Giới tính</th>
+                <th>Ngày sinh</th>
+                <th class="text-center">Trạng thái</th>
+                <th style="width:15%">Số buổi học / Buổi điểm danh</th>
+                <th>Số buổi đi muộn</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item let-i="rowIndex">
+              <tr>
+                <th scope="row">{{ i+1 }}</th>
+                <td>{{ item.userName }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.gender? 'Nam' : 'Nữ' }}</td>
+                <td>{{ item.birthDate | date: 'dd/MM/yyyy'}}</td>
+                <td class="text-center">
+                  <span *ngIf="item.status == '01-02'" class="badge rounded-pill bg-success fs-6">{{ item.statusName }}</span>
+                  <span *ngIf="item.status == '01-03'" class="badge rounded-pill bg-warning fs-6"> {{ item.statusName }} </span>
+                  <span *ngIf="item.status == '01-04'" class="badge rounded-pill bg-danger fs-6"> {{ item.statusName }} </span>
+                  <span *ngIf="item.status == undefined" class="badge rounded-pill bg-secondary fs-6">Chưa điểm danh</span>
+                </td>
+                <td class="text-center">{{ item.numAttendanceInClass }}/{{ item.totalAttendance }}</td>
+                <td class="text-center">{{ item.numAttendanceLate }}</td>
+              </tr>
+          </ng-template>
+        </p-table>
+        </div>
+      </div>
+</div>

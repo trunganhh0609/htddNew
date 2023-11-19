@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h5 class="modal-title mt-0 fs-4">Thêm sinh viên</h5>
+</div>
+<div class="modal-body" style="height: 400px;">
+  <label for="classCode">Tìm kiếm và thêm sinh viên</label>
+  <div class="d-flex justify-content-center">
+    <p-multiSelect
+    [style]="{'width':'500px'}"
+    [panelStyle]="{'width':'500px'}"
+    scrollHeight="200px" display="chip"
+    [options]="lstStudent"
+    [(ngModel)]="selectedStudents"
+    optionLabel="label" optionValue="userId"
+    >
+    </p-multiSelect>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn btn-primary" (click)="save()">Lưu</button>
+  <button type="button" class="btn btn-secondary"(click)="close()">Hủy</button>
+</div>
+

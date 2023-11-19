@@ -1,0 +1,63 @@
+<div class="modal-header">
+  <h5 class="modal-title mt-0 fs-4">Class form</h5>
+</div>
+<form #ngForm="ngForm" (ngSubmit)="submit(ngForm.invalid)">
+<div class="modal-body">
+    <div class="form-group mb-3">
+      <label for="classCode">Class code</label>
+      <input #classCode="ngModel" required [disabled]="data"
+      [ngClass]="{ 'is-invalid': (submitted && classCode.invalid) || (classCode.invalid && (className.dirty || classCode.touched))}"
+      type="text" class="form-control" [(ngModel)]="formData['classCode']" placeholder="Class code" name="classCode" id="classCode">
+      <div *ngIf="(classCode.invalid && submitted) || classCode.invalid && (classCode.dirty || className.touched)" class="invalid-feedback">
+        <div *ngIf="classCode.errors.required">Mã lớp không được để trống</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="className">Class name</label>
+      <input #className="ngModel" required
+      [ngClass]="{ 'is-invalid': (submitted && className.invalid) || (className.invalid && (className.dirty || className.touched))}"
+      type="text" class="form-control" [(ngModel)]="formData['className']" placeholder="Class name" name="className" id="className">
+      <div *ngIf="(className.invalid && submitted) || className.invalid && (className.dirty || className.touched)" class="invalid-feedback">
+        <div *ngIf="className.errors.required">Tên lớp không được để trống</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="role">Giảng viên phụ trách</label>
+      <input class="form-control" [value]= "formData['teacherName']? formData['teacherName']: ''" type="text" (keyup)="onSearchTeacher($event)" placeholder="Search...">
+    </div>
+
+    <div *ngIf="lstTeacher.length>0" style="height: 200; overflow-y: scroll;">
+      <p-table responsiveLayout="scroll" [value]="lstTeacher" [paginator]="false"
+            [rowHover]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                  <th>#</th>
+                  <th>Mã giảng viên</th>
+                  <th>Tên giảng viên</th>
+                  <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr style="cursor: pointer;" (click)="onChangeTeacher(item.userId)">
+                  <td> {{ i+1 }} </td>
+                  <td>{{ item.userName }}</td>
+                  <td>{{ item.teacherName }}</td>
+                  <td *ngIf="(!data && formData['teacherId'] == item.userId) || (data &&  formData['newTeacherId'] == item.userId) ">
+                    <i class="bx bx-check-circle fs-4 text-success"></i>
+                  </td>
+                </tr>
+            </ng-template>
+          </p-table>
+    </div>
+
+
+
+
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn btn-primary" >Lưu</button>
+  <button type="button" class="btn btn-secondary"(click)="close()">Hủy</button>
+</div>
+</form>

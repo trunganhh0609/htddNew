@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <h5 class="modal-title mt-0 fs-4">Công thức tính điểm chuyên cần</h5>
+</div>
+<div class="modal-body">
+  <!-- <div class="mb-3">
+    <label for="userName">Tuần</label>
+    <input #week="ngModel" type="number" [(ngModel)]="dataQR['week']" name="week" required
+    [ngClass]="{ 'is-invalid': (submitted && week.invalid) || (week.invalid && (week.dirty || week.touched))}"
+    class="form-control" id="userName" placeholder="Nhập tuần"/>
+    <div *ngIf="(week.invalid && submitted) || week.invalid && (week.dirty || week.touched)" class="invalid-feedback">
+      <div *ngIf="week.errors.required">Trường này không được để trống</div>
+    </div>
+  </div> -->
+    <div class="col-md-12 mb-3">
+
+      <div class="d-flex">
+        <h4 class="py-2" style= "margin-bottom: 0;">Trừ 5 điểm nếu số buổi nghỉ quá&nbsp;</h4>
+        <div class="col-md-2">
+          <input #timeReset="ngModel" type="number" [(ngModel)]="dataForm['half']" name="timeReset" required
+          [ngClass]="{ 'is-invalid': (submitted && timeReset.invalid) || (timeReset.invalid && (timeReset.dirty || timeReset.touched))}"
+          class="form-control" id="timeReset"/>
+        </div>
+        <h4 class="py-2" style= "margin-bottom: 0;">buổi&nbsp;</h4>
+
+      </div>
+    </div>
+    <div class="col-md-12 mb-3">
+      <div class="d-flex">
+        <h4 class="py-2" style= "margin-bottom: 0;">Một buổi đi muộn bằng &nbsp;</h4>
+        <div class="col-md-2">
+          <select class="form-select" name="late" id="late" [(ngModel)]="dataForm['late']">
+            <option value="0.5">1/2</option>
+            <option value="0.3">1/3</option>
+          </select>
+        </div>
+        <h4 class="py-2" style= "margin-bottom: 0;">&nbsp;buổi&nbsp;</h4>
+
+      </div>
+    </div>
+    <div class="row col-md-12 mb-3">
+      <h4 class="py-2" style= "margin-bottom: 0;">Trừ 10 điểm nếu số buổi nghỉ quá 20% tổng số buổi học</h4>
+    </div>
+
+    <div class="row col-md-12 mb-3">
+      <h4 class="py-2" style= "margin-bottom: 0;">Đạt 10 điểm nếu số buổi nghỉ không quá {{dataForm['half']}}</h4>
+    </div>
+
+  </div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="submit()">Lưu</button>
+  <button type="button" class="btn btn-secondary"(click)="close()">Hủy</button>
+</div>

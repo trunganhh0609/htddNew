@@ -1,0 +1,52 @@
+<app-loader></app-loader>
+<div class="container-fluid">
+  <!-- <app-page-title title="Điểm danh" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
+      <div class="card">
+        <div class="card-body">
+          <h2>{{ classInfo.className }}</h2>
+          <div class="col-md-8"></div>
+            <div class="col-md-2">
+            </div>
+          <div class="row mb-3">
+            <div class="col-md-8"></div>
+            <div class="col-4">
+              <div class="text-end">
+                <button *ngIf="!dataTable[0]['point']" class="btn btn-primary btn-rounded mx-2" (click)="openPopup()">Tính điểm chuyên cần</button>
+                <button *ngIf="dataTable[0]['point']" class="btn btn-success btn-rounded" (click)="export()">Tải xuống Excel</button>
+              </div>
+            </div>
+          </div>
+          <div #table>
+            <p-table responsiveLayout="scroll" [value]="dataTable" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]"
+            [rowHover]="true">
+            <ng-template pTemplate="header">
+                <tr >
+                  <th>#</th>
+                  <th>Mã sinh viên</th>
+                  <th>Họ tên</th>
+                  <th>Giới tính</th>
+                  <th>Ngày sinh</th>
+                  <th style="width:15%">Số buổi học / Buổi điểm danh</th>
+                  <th style="width:10%">Số buổi đi muộn</th>
+                  <th style="width:10%">Điểm chuyên cần</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                  <th scope="row">{{ i+1 }}</th>
+                  <td>{{ item.userName }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.gender? 'Nam' : 'Nữ' }}</td>
+                  <td>{{ item.birthDate | date: 'dd/MM/yyyy'}}</td>
+                  <td class="text-center">{{ item.numAttendanceInClass }}/{{ item.totalAttendance }}</td>
+                  <td class="text-center">{{ item.numAttendanceLate }}</td>
+                  <td class="text-center" *ngIf="item.point != undefined">{{ item.point }}</td>
+                  <td class="text-center" *ngIf="item.point == undefined"> - </td>
+                </tr>
+            </ng-template>
+          </p-table>
+          </div>
+        </div>
+      </div>
+</div>

@@ -1,0 +1,131 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.qlrl.repository.ClassRepository">
+
+    <select id="getClassByTeacher" parameterType="map" resultType="map">
+        SELECT
+        DISTINCT user_class.CLASS_ID as classId,
+        class.CLASS_CODE as classCode,
+        class.CLASS_NAME as className,
+        class.START_DATE as startDate,
+        class.END_DATE as endDate
+        FROM user_class
+        JOIN class ON class.CLASS_ID = user_class.CLASS_ID
+        JOIN user ON user_class.USER_ID = user_class.USER_ID
+        WHERE user.USER_ID = #{uid}
+        AND user.ROLE_ID = #{teacherRole}
+    </select>
+
+    <select id="getStudentInClass" resultType="map" parameterType="map">
+        SELECT
+        user.USER_ID AS userId,
+        user.USER_NAME AS userName,
+        user.NAME AS name,
+        user.BIRTH_DATE AS birthDate,
+        user.GENDER AS gender,
+        user.EMAIL AS email
+        FROM user
+        LEFT JOIN user_class ON user.USER_ID = user_class.USER_ID
+        WHERE user.ROLE_ID = #{studentRole}
+        AND user_class.CLASS_ID = #{classId}
+    </select>
+
+    <select id="getListClass" resultType="map">
+        SELECT
+        class.CLASS_ID as classId,
+        class.CLASS_CODE as classCode,
+        class.CLASS_NAME as className,
+        user.USER_ID as teacherId,
+        user.NAME as teacherName
+        FROM class
+        INNER JOIN user_class ON class.CLASS_ID = user_class.CLASS_ID
+        INNER JOIN user ON user.USER_ID = user_class.USER_ID
+        WHERE user.ROLE_ID = 'ROLE002'
+    </select>
+
+    <select id="searchTeacher" parameterType="String" resultType="map">
+        SELECT
+        NAME as teacherName,
+        USER_NAME as userName,
+        USER_ID as userId
+        FROM user
+        WHERE user.NAME LIKE CONCAT('%', #{keySearch}, '%')
+        AND ROLE_ID = 'ROLE002'
+    </select>
+
+    <insert id="addClass" parameterType="map" useGeneratedKeys="true" keyColumn="CLASS_ID" keyProperty="classId">
+        INSERT INTO class
+        (
+        CLASS_CODE,
+        CLASS_NAME
+        )
+        VALUES
+        (
+        #{classCode},
+        #{className}
+        )
+    </insert>
+
+    <insert id="addTeacherInClass" parameterType="map">
+        INSERT INTO user_class
+        (
+        CLASS_ID,
+        USER_ID
+        )
+        VALUES
+        (
+        #{classId},
+        #{teacherId}
+        )
+    </insert>
+
+    <update id="updateClass" parameterType="map">
+        UPDATE class
+        SET
+        CLASS_NAME = #{className}
+        WHERE CLASS_ID = #{classId}
+    </update>
+
+    <update id="updateTeacherInClass" parameterType="map">
+        UPDATE user_class
+        SET
+        USER_ID = #{newTeacherId}
+        WHERE CLASS_ID = #{classId} AND USER_ID = #{teacherId}
+    </update>
+
+    <delete id="deleteClass" parameterType="map">
+        DELETE FROM class WHERE CLASS_ID = #{classId}
+    </delete>
+
+    <delete id="deleteUserInClass" parameterType="map">
+        DELETE FROM user_class WHERE CLASS_ID = #{classId}
+    </delete>
+
+
+    <select id="getStudentOption" parameterType="map" resultType="map">
+        SELECT
+        user.USER_ID as userId,
+        user.USER_NAME as userName,
+        user.NAME as fullName
+        FROM user
+        WHERE user.ROLE_ID = #{role} AND user.USER_NAME NOT IN
+        <foreach item = "item" index = "index" collection = "lstStudentId"
+                 open = "(" separator = "," close = ")">
+            #{item}
+        </foreach>
+    </select>
+
+    <insert id="addStudentToClass" parameterType="map">
+        INSERT INTO user_class
+        ( USER_ID, CLASS_ID )
+        VALUES
+        ( #{userId}, #{classId} )
+    </insert>
+
+    <delete id="deleteStudentInClass" parameterType="map">
+        DELETE FROM user_class
+        WHERE USER_ID = #{userId}
+        AND CLASS_ID = #{classId}
+    </delete>
+</mapper>

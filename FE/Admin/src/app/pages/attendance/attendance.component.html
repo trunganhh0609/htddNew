@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <app-page-title title="Điểm danh" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="mx-auto" style="width: 500px;">
+            <ngx-qrcode width="500" [value]="time.toString()" errorCorrectionLevel="L">
+            </ngx-qrcode>
+            <button class="btn btn-outline-danger" (click)="updateSubscription.unsubscribe()">cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

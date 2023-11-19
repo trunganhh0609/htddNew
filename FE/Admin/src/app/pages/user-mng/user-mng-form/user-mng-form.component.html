@@ -1,0 +1,109 @@
+<div class="modal-header">
+  <h5 class="modal-title mt-0 fs-4">User form</h5>
+</div>
+<form #ngForm="ngForm" (ngSubmit)="submit(ngForm.invalid)">
+<div class="modal-body">
+    <div class="form-group mb-3">
+      <label for="userName">User Name</label>
+      <input #userName="ngModel" required [disabled]="data"
+      [ngClass]="{ 'is-invalid': (submitted && userName.invalid) || (userName.invalid && (userName.dirty || userName.touched))}"
+      type="text" class="form-control" [(ngModel)]="formData['userName']" placeholder="User name" name="userName" id="userName">
+      <div *ngIf="(userName.invalid && submitted) || userName.invalid && (userName.dirty || userName.touched)" class="invalid-feedback">
+        <div *ngIf="userName.errors.required">Tài khoản không được để trống</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="fullname">Full Name</label>
+      <input
+      #fullName="ngModel" required
+      [ngClass]="{ 'is-invalid': (submitted && fullName.invalid) || (fullName.invalid && (fullName.dirty || fullName.touched))}"
+      type="text" class="form-control" [(ngModel)]="formData['fullName']" placeholder="Full name" name="fullName" id="fullName">
+      <div *ngIf="(fullName.invalid && submitted) || fullName.invalid && (fullName.dirty || fullName.touched)" class="invalid-feedback">
+        <div *ngIf="fullName.errors.required">Họ tên không được để trống</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="email">Email</label>
+      <input
+      #email="ngModel" required
+      [ngClass]="{ 'is-invalid': (submitted && email.invalid) || (email.invalid && (email.dirty || email.touched))}"
+      type="text" class="form-control" [(ngModel)]="formData['email']" placeholder="Email" name="email" id="email">
+      <div *ngIf="(email.invalid && submitted) || email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
+        <div *ngIf="email.errors.required">Email không được để trống</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="birthDate">Date of birth</label>
+      <input
+      #birthDate="ngModel" required
+      [ngClass]="{ 'is-invalid': (submitted && birthDate.invalid) || (birthDate.invalid && (birthDate.dirty || birthDate.touched))}"
+      type="date" class="form-control" [(ngModel)]="formData['birthDate']" name="birthDate" id="birthDate">
+      <div *ngIf="(birthDate.invalid && submitted) || birthDate.invalid && (birthDate.dirty || birthDate.touched)" class="invalid-feedback">
+        <div *ngIf="birthDate.errors.required">Ngày sinh không được để trống</div>
+      </div>
+    </div>
+
+    <p *ngIf="data" class="text-primary" style="cursor: pointer;" (click)="isEditPassword = true">Change Password</p>
+
+    <div *ngIf="isEditPassword == true" class="form-group mb-3">
+      <label for="password">Password</label>
+      <input
+      #password="ngModel" required
+      [ngClass]="{ 'is-invalid': (submitted && password.invalid) || (password.invalid && (password.dirty || password.touched))}"
+      type="password" class="form-control" [(ngModel)]="formData['password']" placeholder="Password" name="password" id="password">
+      <div *ngIf="(password.invalid && submitted) || password.invalid && (password.dirty || password.touched)" class="invalid-feedback">
+        <div *ngIf="password.errors.required">Mật khẩu không được để trống</div>
+      </div>
+    </div>
+
+    <div *ngIf="isEditPassword == true" class="form-group mb-3">
+      <label for="cfPassword">Confirm Password</label>
+      <input
+      #cfPassword="ngModel" required
+      [ngClass]="{ 'is-invalid': (submitted && cfPassword.invalid) || (cfPassword.invalid && (cfPassword.dirty || cfPassword.touched))}"
+      type="password" class="form-control" [(ngModel)]="formData['cfPassword']" placeholder="Confirm Pasword" name="cfPassword" id="cfPassword">
+      <div *ngIf="(cfPassword.invalid && submitted) || cfPassword.invalid && (cfPassword.dirty || cfPassword.touched)" class="invalid-feedback">
+        <div *ngIf="cfPassword.errors.required">Xác nhận mật khẩu không được để trống</div>
+      </div>
+      <div *ngIf="(cfPassword.dirty || cfPassword.touched) && formData['cfPassword']?.toString() != formData['password']?.toString()">
+        <div style="font-size: 80%;color: #f46a6a;">Xác nhận mật khẩu không khớp</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <h5 class="font-size-14 ">Gender</h5>
+      <div class="form-check mb-1">
+          <input class="form-check-input" type="radio" name="gender" id="male" (change)="formData['gender'] = true" [checked]="formData['gender'] == true? true : false">
+          <label class="form-check-label" for="male">
+              Male
+          </label>
+      </div>
+      <div class="form-check">
+          <input class="form-check-input" type="radio" name="gender" id="female"(change)="formData['gender'] = false" [checked]="formData['gender'] == false? true : false">
+          <label class="form-check-label" for="female">
+              Female
+          </label>
+      </div>
+  </div>
+
+    <div class="form-group mb-3">
+      <label for="role">Role</label>
+      <select [(ngModel)]="formData['role']" name="role" class="form-select">
+        <option value="ROLE001">Admin</option>
+        <option value="ROLE002">Teacher</option>
+        <option value="ROLE003">Student</option>
+      </select>
+    </div>
+
+
+
+
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn btn-primary" >Lưu</button>
+  <button type="button" class="btn btn-secondary"(click)="close()">Hủy</button>
+</div>
+</form>

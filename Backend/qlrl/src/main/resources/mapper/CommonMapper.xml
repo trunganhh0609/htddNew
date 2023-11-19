@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.qlrl.repository.CommonRepository">
+
+    <select id="getMenuByRole" parameterType="map" resultType="map">
+        SELECT
+        menu.ID as id,
+        menu.LABEL as label,
+        menu.ICON as icon,
+        menu.LINK as link
+        FROM menu
+        INNER JOIN menu_role ON menu.ID = menu_role.MENU_ID
+        WHERE ROLE_ID = #{role}
+    </select>
+
+</mapper>

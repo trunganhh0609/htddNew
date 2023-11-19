@@ -1,0 +1,161 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.qlrl.repository.UserRepos">
+
+    <select resultType="com.project.qlrl.models.User" parameterType="map" id="getUserByUserName">
+        SELECT * FROM user WHERE USER_NAME = #{userName}
+    </select>
+
+    <select resultType="map" id="searchUser" parameterType="map">
+        SELECT
+        user.USER_ID as userId,
+        user.USER_NAME as userName,
+        user.NAME as fullName,
+        user.BIRTH_DATE as birthDate,
+        user.EMAIL as email,
+        user.GENDER as gender,
+        user.ROLE_ID as roleId
+        FROM user
+<!--        WHERE-->
+<!--        user.USER_NAME LIKE CONCAT('%', #{userName}, '%')-->
+<!--        AND user.NAME LIKE CONCAT('%', #{fullName}, '%')-->
+<!--        <if test="roleId != null and roleId != ''">-->
+<!--            AND role.ROLE_ID = #{roleId}-->
+<!--        </if>-->
+
+    </select>
+
+    <select resultType="map" id="getUserRole" parameterType="Map">
+        SELECT ROLE_ID AS ROLE FROM user WHERE USER_NAME = #{userName}
+    </select>
+
+    <select id="getNormalInfo" parameterType="map" resultType="map">
+        SELECT NAME, BIRTH_DATE, GENDER, ROLE_ID FROM user WHERE USER_NAME = #{userName}
+    </select>
+
+    <select resultType="map" id="getUserInfo" parameterType="Map">
+        SELECT
+        user.USER_ID,
+        user.USER_NAME,
+        user.NAME,
+        user.BIRTH_DATE,
+        user.ROLE_ID AS ROLE
+        FROM user
+        WHERE USER_NAME = #{userName}
+    </select>
+
+    <select resultType="map" id="getInfoTeacher" parameterType="Map">
+        SELECT
+        user.USER_ID,
+        user.NAME,
+        user.BIRTH_DATE,
+        user.ROLE_ID AS ROLE
+        FROM user
+        WHERE USER_NAME = #{userName}
+    </select>
+
+    <insert id="addUser" parameterType="com.project.qlrl.models.User" useGeneratedKeys="true" keyProperty="USER_ID" keyColumn="USER_ID">
+        INSERT INTO `user`
+        (`USER_NAME`,
+        `PASSWORD`,
+        `NAME`,
+        `BIRTH_DATE`,
+        `GENDER`,
+        <if test="email != null and email != ''">
+            `EMAIL`,
+        </if>
+        `ROLE_ID`)
+        VALUES (
+        #{USER_NAME},
+        #{PASSWORD},
+        #{name},
+        #{birthDate},
+        #{gender},
+        <if test="email != null and email != ''">
+            #{email},
+        </if>
+        #{ROLE_ID});
+    </insert>
+
+    <insert id="addUserToClass" parameterType="map">
+        INSERT INTO user_class (`USER_ID`, `CLASS_ID`)
+        VALUES (#{userId}, #{classId});
+    </insert>
+
+    <update id="updateUser" parameterType="map">
+        UPDATE user
+        SET
+        <if test="fullName != null and fullName!= ''">
+            `NAME`= #{fullName},
+        </if>
+        <if test="pwd != null and pwd!= ''">
+            `PASSWORD`= #{pwd},
+        </if>
+        <if test="email != null and email!= ''">
+            `EMAIL`= #{email},
+        </if>
+        <if test="dob != null and dob!= ''">
+            `BIRTH_DATE`= #{dob},
+        </if>
+            `GENDER`= #{gender},
+        <if test="role != null and role != ''">
+            `ROLE_ID`= #{role}
+        </if>
+        WHERE  `USER_NAME`= #{userName};
+    </update>
+
+    <update id="updateUserClass" parameterType="map">
+        UPDATE user_class
+        SET CLASS_ID = #{classId}
+        WHERE UC_ID = #{ucId}
+    </update>
+
+    <delete id="deleteUser" parameterType="map">
+        DELETE FROM user
+        WHERE  `USER_NAME` = #{userName};
+    </delete>
+
+    <update id="changePassword" parameterType="map">
+        UPDATE user SET
+        PASSWORD = #{newPass}
+        WHERE USER_NAME = #{userName}
+    </update>
+
+    <select id="getPassword" parameterType="map" resultType="String">
+        SELECT PASSWORD FROM user
+        WHERE USER_NAME = #{userName}
+    </select>
+    
+    <select id="statisticalPoint" parameterType="map" resultType="map">
+        SELECT * FROM request_approve
+        INNER JOIN review_duration ON request_approve.REVIEW_DURATION_ID = review_duration.REVIEW_DURATION_ID
+        INNER JOIN user ON user.USER_ID =  request_approve.USER_ID
+        WHERE user.USER_NAME = #{userId}
+        AND STATUS = '02-04'
+    </select>
+
+    <select resultType="map" id="getUserInfoByEmail" parameterType="String">
+        SELECT
+        user.USER_ID,
+        user.USER_NAME,
+        user.NAME,
+        user.BIRTH_DATE,
+        user.ROLE_ID AS ROLE,
+        class.CLASS_NAME,
+        class.CLASS_ID
+        FROM user
+        LEFT JOIN user_class ON user.USER_ID = user_class.USER_ID
+        LEFT JOIN class ON user_class.CLASS_ID = class.CLASS_ID
+        WHERE EMAIL = #{email}
+    </select>
+
+    <select id="checkUserNameExist" parameterType="string" resultType="integer">
+        SELECT COUNT(*) FROM user WHERE USER_NAME = #{userName}
+    </select>
+
+    <select id="checkEmailExist" parameterType="string" resultType="integer">
+        SELECT COUNT(*) FROM user WHERE EMAIL = #{email}
+    </select>
+
+</mapper>

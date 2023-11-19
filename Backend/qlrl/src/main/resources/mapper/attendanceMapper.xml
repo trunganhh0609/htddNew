@@ -1,0 +1,70 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.qlrl.repository.AttendanceRepository">
+
+    <select resultType="map" id="getAllAttendance">
+        SELECT * FROM attendance
+    </select>
+
+    <insert id="attendance" parameterType="map">
+        INSERT INTO attendance (USER_ID, CLASS_ID,
+        <if test="deviceId != null and deviceId != ''">
+            DEVICE_ID,
+        </if>
+        LESSON, STATUS, CREATED_DATE)
+        VALUES (#{userId}, #{classId},
+        <if test="deviceId != null and deviceId != ''">
+            #{deviceId},
+        </if>
+        #{lesson}, #{status}, NOW());
+    </insert>
+
+    <update id="attendanceLate" parameterType="map">
+        UPDATE attendance SET STATUS = '01-03', DEVICE_ID = #{deviceId} WHERE
+        USER_ID = #{userId}
+        AND CLASS_ID = #{idClass}
+        AND SUBJECT_ID = #{idSubject}
+        AND LESSON = #{lesson};
+    </update>
+
+    <select id="checkDeviceId" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM attendance
+        WHERE LESSON = #{lesson}
+        AND CLASS_ID = #{idClass}
+        AND SUBJECT_ID = #{idSubject}
+        AND DEVICE_ID = #{deviceId}
+    </select>
+
+    <select id="getListAttendanceInLesson" parameterType="map" resultType="map">
+        SELECT
+        attendance.USER_ID as userId,
+        attendance.LESSON as lesson,
+        attendance.STATUS as status,
+        comm_code.COMM_NAME as commName
+        FROM attendance INNER JOIN comm_code
+        ON attendance.STATUS = comm_code.COMM_CODE
+        WHERE attendance.CLASS_ID = #{classId}
+        AND attendance.LESSON = #{lesson}
+    </select>
+
+    <select id="getAttendanceInAllLesson" parameterType="map" resultType="map">
+        SELECT * FROM attendance
+        WHERE CLASS_ID = #{classId}
+        AND SUBJECT_ID = #{idSubject}
+    </select>
+
+    <select id="countNumAttendanceOfStudent" parameterType="map" resultType="Integer">
+        SELECT COUNT(*) FROM attendance
+        WHERE USER_ID = #{userId}
+        AND CLASS_ID = #{classId}
+        AND STATUS IN('01-02', '01-03')
+    </select>
+
+    <select id="countNumAttendanceLate" parameterType="map" resultType="Integer">
+        SELECT COUNT(*) FROM attendance
+        WHERE USER_ID = #{userId}
+        AND CLASS_ID = #{classId}
+        AND STATUS = '01-03'
+    </select>
+</mapper>

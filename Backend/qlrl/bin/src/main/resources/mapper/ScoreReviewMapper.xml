@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.qlrl.repository.ScoreReviewRepository">
+
+    <select id="getItemReview" resultType="Map">
+        SELECT item_review.ITEM_ID,
+        item_review.ITEM_PARENT,
+        item_review.DESCRIPTION,
+        item_review.POINT,
+        comm_code.COMM_NAME AS INPUT_TYPE
+        FROM item_review
+        LEFT JOIN comm_code ON comm_code.COMM_CODE = item_review.INPUT_TYPE;
+    </select>
+    <insert id="saveFile" parameterType="map">
+        INSERT INTO file (FILE_NAME, FILE_DATA) VALUES (#{fileName}, #{fileData});
+    </insert>
+
+    <select id="getImg" resultType="map">
+        SELECT * FROM file
+    </select>
+</mapper>

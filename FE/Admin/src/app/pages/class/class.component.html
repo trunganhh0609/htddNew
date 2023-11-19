@@ -1,0 +1,32 @@
+
+<div class="container-fluid">
+  <!-- <app-page-title title="Điểm danh" [breadcrumbItems="dsfsd"></app-page-title> -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2>Lớp học</h2>
+          <p-table responsiveLayout="scroll" [value]="lstClass" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            [rowHover]="true"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header">
+                <tr >
+                  <th>#</th>
+                  <th>Mã lớp</th>
+                  <th>Tên lớp</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr (dblclick)="listStudent(item)" style="cursor: pointer;">
+                  <td> {{ i+1 }} </td>
+                  <td>{{ item.classCode }}</td>
+                  <td>{{ item.className }}</td>
+                </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

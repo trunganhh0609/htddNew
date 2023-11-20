@@ -26,7 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState(){
     super.initState();
-    checkId();
+    // checkId();
+    // gotoLoginPage();
     checkToken();
   }
    checkId() async{
@@ -87,21 +88,18 @@ class _SplashScreenState extends State<SplashScreen> {
     if(await Authentication.checkToken()){
       gotoLoginPage();
     }else{
-      bool auth = await Authentication.authentication();
-      if(auth){
-        gotoHomePage();
-      }
+      gotoHomePage();
     }
   }
   gotoLoginPage() async {
     await Future.delayed(Duration(seconds: 3), () {});
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => AuthScreen()));
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
   gotoHomePage() async {
     await Future.delayed(Duration(seconds: 3), () {});
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Home()));
+        context, MaterialPageRoute(builder: (context) => AuthScreen()));
   }
 
   @override

@@ -11,14 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'home-screen.dart';
 
 
-class loginscreen extends StatefulWidget {
-  const loginscreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<loginscreen> createState() => _loginscreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _loginscreenState extends State<loginscreen> {
+class _LoginScreenState extends State<LoginScreen> {
   var userController = Get.put(UserController());
   TextEditingController nameEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
@@ -31,14 +31,14 @@ class _loginscreenState extends State<loginscreen> {
     final prefs = await SharedPreferences.getInstance();
 
     Map<String,dynamic> res = await _loginNetWork.login(param);
-
-    if(res['Token'] != null){
+    if(res['jwt'] != null){
       bool auth = await Authentication.authentication();
+      print(auth);
       if(auth){
-        prefs.setString('uid', res['Info']['UserName']);
-        prefs.setString('userInfo', res['Info']['FullName']);
-        prefs. setString('Token',res['Token'].toString());
-        userController.userInfo.value = res['Info'];
+        prefs.setString('uid', res['Data']['userName']);
+        prefs.setString('userInfo', res['Data']['name']);
+        prefs. setString('Token',res['jwt'].toString());
+        userController.userInfo.value = res['Data'];
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
       }
     }else{
@@ -150,9 +150,8 @@ class _loginscreenState extends State<loginscreen> {
                     onPressed: () {
 
                       Map<Object,Object> param = {
-                        'UserName': uid,
-                        'Password' : pwd,
-                        'UserCategory' : 3
+                        'userName': uid,
+                        'password' : pwd,
                       };
                       login(param);
 

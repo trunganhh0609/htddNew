@@ -2,15 +2,21 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class AttendanceNetWork{
-  // final String url = 'http://10.0.2.2:8090/api/';
-  final String url = 'http://14.225.210.175:8090/api/';
+  final String url = 'http://10.0.2.2:8090/api/';
+  // final String url = 'http://14.225.210.175:8090/api/';
   final String TAurl = 'http://daotao.hnue.edu.vn/UniDormAPI/SQLExecute/ExecuteQuerryString';
   Future attendance(Map data) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    String token = '';
+    token = (await pref.getString("Token"))!;
     final Response response = await http.post(
       Uri.parse('${url}attendance'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': "Bearer " + token
       },
       body: jsonEncode(data),
     );
@@ -25,10 +31,13 @@ class AttendanceNetWork{
   }
 
   Future<Map<String,dynamic>> checkDevideId(Map param) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    String token = '';
     final Response response = await http.post(
         Uri.parse('${url}checkDeviceId'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': "Bearer " + token
         },
         body: jsonEncode(param)
     );

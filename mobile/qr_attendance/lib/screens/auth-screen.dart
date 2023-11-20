@@ -14,25 +14,31 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              Text("Login to Attendance App"),
-              SizedBox(height: 30,),
-              ElevatedButton.icon(
-                  onPressed: () async {
-                    bool auth = await Authentication.authentication();
-                    print("can authentication: $auth");
-                    if(auth){
-                      Navigator.pushReplacement(
-                          context, MaterialPageRoute(builder: (context) => Home()));
-                    }
-                  },
-                icon: Icon(Icons.fingerprint),
-                  label: Text("Use Finger Print"),
-              )
-            ],
-          ),
+        child: Stack(
+          children: [
+            Image.asset('assets/image/img.png', fit: BoxFit.cover,width: MediaQuery.of(context).size.width),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Xác thực danh tính để tiếp tục", style: TextStyle(fontSize: 20, color: Colors.white),),
+                  SizedBox(height: 30,),
+                  ElevatedButton.icon(
+                      onPressed: () async {
+                        bool auth = await Authentication.authentication();
+                        print("can authentication: $auth");
+                        if(auth){
+                          Navigator.pushReplacement(
+                              context, MaterialPageRoute(builder: (context) => Home()));
+                        }
+                      },
+                    icon: Icon(Icons.fingerprint),
+                      label: Text("Sử dụng vân tay"),
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

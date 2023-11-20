@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
     prefs.remove("uid");
     prefs.remove("Token");
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => loginscreen()));
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
   showAlertDialog(BuildContext context) {
 

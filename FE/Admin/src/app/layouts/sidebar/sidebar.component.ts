@@ -4,10 +4,11 @@ import { Router, NavigationEnd } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http';
 
-import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 import { TranslateService } from '@ngx-translate/core';
 import { EventService } from 'src/app/services/event.service';
+import { Cookie } from 'ng2-cookies';
+import { ADMIN_MENU, TEACHER_MENU } from './menu';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,8 +38,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
 
-  ngOnInit() {
-    this.initialize();
+  async ngOnInit() {
+    await this.initialize();
     this._scrollElement();
   }
 
@@ -138,8 +139,13 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   /**
    * Initialize
    */
-  initialize(): void {
-    this.menuItems = MENU;
+  async initialize(): Promise<void> {
+    if(await Cookie.get("role").toString() == "ROLE001"){
+      this.menuItems = ADMIN_MENU;
+    }else if( await Cookie.get("role").toString() == "ROLE002"){
+      this.menuItems = TEACHER_MENU;
+    }
+
   }
 
   /**

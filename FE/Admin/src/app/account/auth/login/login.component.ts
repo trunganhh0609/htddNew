@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
 
       if(res.jwt){
         AuthenticationUtil.saveToken(res.jwt);
-        AuthenticationUtil.saveUserInfo(res.Data.name);
+        AuthenticationUtil.saveUserInfo(res.Data);
         this.router.navigate(['/']);
       }else{
         this.showError();

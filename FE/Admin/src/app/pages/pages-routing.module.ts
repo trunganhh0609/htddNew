@@ -11,9 +11,11 @@ import { GeneratePointComponent } from './generate-point/generate-point.componen
 import { UserMngComponent } from './user-mng/user-mng.component';
 import { ClassMngComponent } from './class-mng/class-mng.component';
 import { ClassMngDetailComponent } from './class-mng/class-mng-detail/class-mng-detail.component';
+import { Cookie } from 'ng2-cookies';
+
 
 const routes: Routes = [
-  { path: '', redirectTo: 'class' },
+  { path: '', component: DefaultComponent },
 
   { path: 'attendance', component: AttendanceComponent },
   { path: 'dashboard', component: DefaultComponent },

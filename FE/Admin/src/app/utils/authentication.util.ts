@@ -54,8 +54,8 @@ export class AuthenticationUtil {
   }
 
   public static saveUserInfo(userInfo: any){
-    Cookie.set('userInfo', userInfo);
-  }
+    Cookie.set('userInfo', userInfo.name);
+    Cookie.set("role", userInfo.role)  }
 
   public static getUserInfo(){
     return Cookie.get('userInfo');

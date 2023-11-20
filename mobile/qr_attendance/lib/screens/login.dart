@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
       bool auth = await Authentication.authentication();
       print(auth);
       if(auth){
-        prefs.setString('uid', res['Data']['userName']);
+        prefs.setString('uid', res['Data']['id'].toString());
         prefs.setString('userInfo', res['Data']['name']);
         prefs. setString('Token',res['jwt'].toString());
         userController.userInfo.value = res['Data'];

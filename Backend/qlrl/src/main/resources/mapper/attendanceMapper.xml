@@ -23,16 +23,14 @@
     <update id="attendanceLate" parameterType="map">
         UPDATE attendance SET STATUS = '01-03', DEVICE_ID = #{deviceId} WHERE
         USER_ID = #{userId}
-        AND CLASS_ID = #{idClass}
-        AND SUBJECT_ID = #{idSubject}
+        AND CLASS_ID = #{classId}
         AND LESSON = #{lesson};
     </update>
 
     <select id="checkDeviceId" parameterType="map" resultType="int">
         SELECT COUNT(*) FROM attendance
         WHERE LESSON = #{lesson}
-        AND CLASS_ID = #{idClass}
-        AND SUBJECT_ID = #{idSubject}
+        AND CLASS_ID = #{classId}
         AND DEVICE_ID = #{deviceId}
     </select>
 

@@ -13,10 +13,7 @@ public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
 
-    @GetMapping("test")
-    public String test(){
-        return "Trung anh";
-    }
+
     @GetMapping("all")
     public List<Map> getAll(){
         return attendanceService.getAll();

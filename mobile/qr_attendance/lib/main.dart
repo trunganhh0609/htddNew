@@ -150,16 +150,19 @@ class _MyHomePageState extends State<MyHomePage> {
       print(expiredTime);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       if(now.isBefore(expiredTime) && now.isAfter(startexpiredTime)){
+        print(userController.deviceId);
         Map param = {
           'userId': prefs.get("uid"),
           'lesson': lesson,
-          'idClass': idClass,
+          'classId': idClass,
           'status': status,
           'deviceId': userController.deviceId.value
         };
         if(await checkDeviceId(param) == true){
+          print("true");
           var res = await _attendanceNetWork.attendance(param);
           if(res["response"] == "success"){
+            print("success");
             controller.pauseCamera();
             dialog("Điểm danh thành công", "Bạn đã điểm danh thành công", "");
           }else{

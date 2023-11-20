@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceNetWork{
-  final String url = 'http://10.0.2.2:8090/api/';
+  final String url = 'http://10.0.2.2:8091/api/';
   // final String url = 'http://14.225.210.175:8090/api/';
   final String TAurl = 'http://daotao.hnue.edu.vn/UniDormAPI/SQLExecute/ExecuteQuerryString';
   Future attendance(Map data) async {
@@ -33,6 +33,7 @@ class AttendanceNetWork{
   Future<Map<String,dynamic>> checkDevideId(Map param) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     String token = '';
+    token = (await pref.getString("Token"))!;
     final Response response = await http.post(
         Uri.parse('${url}checkDeviceId'),
         headers: <String, String>{
@@ -42,6 +43,7 @@ class AttendanceNetWork{
         body: jsonEncode(param)
     );
     if (response.statusCode == 200) {
+      print(response);
       final res = json
           .decode(utf8.decode(response.bodyBytes));
       return res;

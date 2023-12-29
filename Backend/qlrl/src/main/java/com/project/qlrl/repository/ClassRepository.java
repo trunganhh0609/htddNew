@@ -26,5 +26,6 @@ public interface ClassRepository {
     public int addStudentToClass(Map<Object,Object> param);
     public int deleteStudentInClass(Map<Object,Object> param);
 
+    public int checkStudentExisting(Map<Object,Object> param);
 
 }

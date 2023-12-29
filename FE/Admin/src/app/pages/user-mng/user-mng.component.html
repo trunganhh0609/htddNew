@@ -5,10 +5,20 @@
       <div class="card">
         <div class="card-body">
           <h2>Quản lý người dùng</h2>
-          <div class="row my-2">
+          <div class="row my-4">
+
             <!-- <div class="col-md-10"></div> -->
-            <div class="col-md-12 text-end">
-              <button class="btn btn-success" (click)="addUser()">Create new user</button>
+            <div class="col-md-12">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <label class="form-label" for="">Role</label>
+                  <br/>
+                  <p-dropdown [options]="roles" [(ngModel)]="selectedRoleId" optionLabel="name" optionValue="id" (onChange)="changeSearch($event)"></p-dropdown>
+                </div>
+                <div style="height:fit-content">
+                  <button class="btn btn-success" (click)="addUser()">Create new user</button>
+                </div>
+            </div>
             </div>
           </div>
           <p-table responsiveLayout="scroll" [value]="lstUsers" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"

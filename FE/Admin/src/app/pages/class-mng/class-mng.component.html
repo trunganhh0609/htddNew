@@ -20,6 +20,9 @@
                   <th>Mã lớp</th>
                   <th>Tên lớp</th>
                   <th>Giảng viên phụ trách</th>
+                  <th>Ngày bắt đầu</th>
+                  <th>Ngày kết thúc</th>
+                  <th>Trạng thái</th>
                   <th></th>
                 </tr>
             </ng-template>
@@ -29,6 +32,12 @@
                   <td>{{ item.classCode }}</td>
                   <td>{{ item.className }}</td>
                   <td>{{ item.teacherName }}</td>
+                  <td>{{ item.startDate | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ item.endDate | date: 'dd/MM/yyyy' }}</td>
+                  <td class="text-center">
+                    <span *ngIf="item.status == true" class="badge rounded-pill bg-success fs-6">Đang học</span>
+                    <span *ngIf="item.status == false" class="badge rounded-pill bg-danger fs-6">Đã kết thúc</span>
+                  </td>
                   <td>
                     <div>
                       <i class="mx-1 bx bx-edit-alt fs-4 edit" (click)="edit(item)"></i>

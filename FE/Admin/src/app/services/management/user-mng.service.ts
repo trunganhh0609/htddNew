@@ -14,9 +14,9 @@ export class UserMngService {
     private http: HttpClient
     ) { }
 
-  searchUser():Observable<any>{
+  searchUser(param:any):Observable<any>{
     const headers = { 'Authorization': AuthenticationUtil.getToken() };
-    const url = ApiUrlUtil.buildQueryString(environment.apiURL + '/searchUser');
+    const url = ApiUrlUtil.buildQueryString(environment.apiURL + '/searchUser?roleId='+ param);
     return this.http.get<any>(url, {headers});
   }
 

@@ -8,7 +8,9 @@
           <div class="row my-2">
             <!-- <div class="col-md-10"></div> -->
             <div class="col-md-12 text-end">
-              <button class="btn btn-success" (click)="addStudent()">Thêm sinh viên</button>
+              <button class="btn btn-success" style="margin-right: 20px;"(click)="addStudent()">Thêm sinh viên</button>
+              <input hidden type="file" (change)="onChangeFile($event)" #inputFile accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+              <button class="btn btn-primary" (click)="inputFile.click()">Thêm sinh viên bằng file excel</button>
             </div>
           </div>
           <p-table responsiveLayout="scroll" [value]="lstStudent" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"

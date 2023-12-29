@@ -105,4 +105,28 @@ export class ClassMngDetailComponent implements OnInit {
       })
     });
   }
+
+  onChangeFile(event:any){
+    console.log("fsf");
+
+    let excelFile: File = event.target.files[0];
+    // console.log(excelFile);
+    let formData:FormData = new FormData();
+    formData.append('file', excelFile);
+    formData.append("classId", this.classId);
+    this.classMngService.importExcelFile(formData).subscribe(result =>{
+      // console.log(result);
+      if(result.status){
+        if(result.num>0){
+          Swal.fire( result.num + " sinh viên đã được thêm vào lớp", "Sinh viên trong file đã có hoặc không tồn tại trong hệ thống sẽ không được thêm", 'success');
+        }else{
+          Swal.fire( "Không có sinh viên nào được thêm vào lớp", "Có thể do sinh viên trong file đã có hoặc không tồn tại trong hệ thống", 'success');
+
+        }
+        this.getData();
+
+      }
+    })
+  }
+
 }

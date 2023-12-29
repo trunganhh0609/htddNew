@@ -4,9 +4,15 @@ import com.project.qlrl.common.CommonConst;
 import com.project.qlrl.repository.AttendanceRepository;
 import com.project.qlrl.repository.ClassRepository;
 import com.project.qlrl.repository.HistoryOfAttendanceRepository;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +26,9 @@ public class ClassService {
 
     @Autowired
     ClassRepository classRepository;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     AttendanceRepository attendanceRepository;
@@ -202,5 +211,41 @@ public class ClassService {
             result.put("error", "error");
         }
         return result;
+    }
+
+    @Transactional
+    public int importExcel(MultipartFile excelFile, String classId) throws Exception {
+        int number = 0;
+        Map data = new HashMap<>();
+        data.put("fileName", excelFile.getOriginalFilename());
+        data.put("fileData", excelFile.getBytes());
+        try (Workbook workbook = new XSSFWorkbook(excelFile.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Lấy sheet đầu tiên
+            int index = 0;
+            List<Map<Object, Object>> lstStudent = new ArrayList<>();
+            DataFormatter formatter = new DataFormatter();
+
+            for (Row row : sheet) {
+                index++;
+                if(index > 1){
+                    Map<Object,Object> studentInfo = new HashMap<>();
+                    String val = formatter.formatCellValue(row.getCell(1));
+                    studentInfo.put("studentId", val);
+                    studentInfo.put("classId", classId);
+                    int ex = classRepository.checkStudentExisting(studentInfo);
+                    if(ex > 0){
+                        System.out.println("Existing");
+                    }else {
+                        String userId = userService.getUserIdByUserName(studentInfo.get("studentId").toString());
+                        if(userId != ""){
+                            studentInfo.put("userId", userId);
+                            classRepository.addStudentToClass(studentInfo);
+                            number ++;
+                        }
+                    }
+                }
+            }
+        }
+        return number;
     }
 }

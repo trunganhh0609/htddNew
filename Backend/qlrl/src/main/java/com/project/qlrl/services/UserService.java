@@ -185,4 +185,17 @@ public class UserService {
         String emailVerifyKey = userInfo.get("EMAIL_VERIFY_KEY").toString();
         return mailService.verifyCode(otp, emailVerifyKey);
     }
+
+    public String getUserIdByUserName(String userName) throws Exception{
+        String result = "";
+        try {
+            Map<Object,Object> data =  userRepos.getUserIdByUserName(userName);
+            if(data != null){
+                result = data.get("userId").toString();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

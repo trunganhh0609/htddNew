@@ -1,6 +1,9 @@
 import { HttpHeaders } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { ThienAnConstant } from "../constants/thien-an.constant";
+import { AuthConstant } from "../constants/auth.constant";
+import { Cookie } from "ng2-cookies";
+import { AuthenticationUtil } from "./authentication.util";
 
 export class HeadersUtil{
   public static getHeaders(): HttpHeaders {
@@ -25,6 +28,18 @@ export class HeadersUtil{
       'Authorization': token,
     });
     return header;
+  }
+  public static getHeadersAuthMultipart(): HttpHeaders {
+    const token =  AuthenticationUtil.getToken();
+    if (!token) {
+      return HeadersUtil.getHeaders();
+    }
+
+    return new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+      'Authorization': token,
+    });
   }
 
 }

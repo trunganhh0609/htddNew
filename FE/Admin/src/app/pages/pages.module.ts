@@ -45,6 +45,7 @@ import { UserMngFormComponent } from './user-mng/user-mng-form/user-mng-form.com
 import { ClassMngFormComponent } from './class-mng/class-mng-form/class-mng-form.component';
 import { ClassMngDetailComponent } from './class-mng/class-mng-detail/class-mng-detail.component';
 import { ClassMngDeailFormComponent } from './class-mng/class-mng-detail/class-mng-deail-form/class-mng-deail-form.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -78,7 +79,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ButtonModule,
     ToastModule,
     NgSelectModule,
-    MultiSelectModule
+    MultiSelectModule,
+    DropdownModule
   ],
   providers: [
     CommonService,

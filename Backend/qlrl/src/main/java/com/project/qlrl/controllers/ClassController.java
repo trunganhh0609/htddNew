@@ -4,7 +4,10 @@ import com.project.qlrl.common.CommonConst;
 import com.project.qlrl.services.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,5 +89,18 @@ public class ClassController {
     @PostMapping("deleteStudentInClass")
     public Map<Object,Object> deleteStudentInClass(@RequestBody Map<Object,Object> param){
         return classService.deleteStudentInClass(param);
+    }
+    @PostMapping("/importExcelStudent")
+    public Map<Object,Object> importExcel(@RequestParam("file") MultipartFile file, @RequestParam("classId") String classId) throws IOException, ParseException {
+        Map<Object,Object> result = new HashMap<>();
+
+        try {
+            result.put("num", classService.importExcel(file, classId));
+            result.put("status",true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("status", false);
+        }
+        return result;
     }
 }

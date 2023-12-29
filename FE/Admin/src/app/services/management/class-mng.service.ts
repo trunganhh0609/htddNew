@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiUrlUtil } from 'src/app/utils/api-url.util';
 import { AuthenticationUtil } from 'src/app/utils/authentication.util';
+import { HeadersUtil } from 'src/app/utils/header.util';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -66,5 +67,10 @@ export class ClassMngService {
     const headers = { 'Authorization': AuthenticationUtil.getToken() };
     const url = ApiUrlUtil.buildQueryString(environment.apiURL + '/class/deleteStudentInClass');
     return this.http.post<any>(url, param, {headers});
+  }
+
+  importExcelFile(data:any){
+    const url = ApiUrlUtil.buildQueryString(environment.apiURL + '/class/importExcelStudent');
+    return this.http.post<any>(url, data);
   }
 }

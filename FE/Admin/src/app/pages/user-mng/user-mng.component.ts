@@ -5,27 +5,48 @@ import { UserMngFormComponent } from './user-mng-form/user-mng-form.component';
 import { MessageService } from 'primeng/api';
 import Swal from 'sweetalert2';
 
+interface City {
+  name: string,
+  code: string
+}
 @Component({
   selector: 'app-user-mng',
   templateUrl: './user-mng.component.html',
   styleUrls: ['./user-mng.component.scss']
 })
+
 export class UserMngComponent implements OnInit {
 
   lstUsers = [];
+  roles: any[];
+
+  selectedRole: any;
+  selectedRoleId: any = '';
+
   constructor(
     private userMngService: UserMngService,
     private dialog: MatDialog,
     // private messageService: MessageService
-  ) { }
+  ) {
+    this.roles = [
+      {name: 'Tất cả', id: ''},
+      {name: 'Admin', id: 'ROLE001'},
+      {name: 'Giảng viên', id: 'ROLE002'},
+      {name: 'Sinh viên', id: 'ROLE003'}
+  ];
+  }
 
   ngOnInit(): void {
 
     this.getData()
   }
 
+  changeSearch(event:any){
+    this.getData();
+  }
+
   getData(){
-    this.userMngService.searchUser().subscribe(result => {
+    this.userMngService.searchUser(this.selectedRoleId).subscribe(result => {
       console.log(result);
       if(result.status === true){
         this.lstUsers = result.data;

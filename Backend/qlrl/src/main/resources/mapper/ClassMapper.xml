@@ -128,4 +128,11 @@
         WHERE USER_ID = #{userId}
         AND CLASS_ID = #{classId}
     </delete>
+
+    <select id="checkStudentExisting" resultType="Integer" parameterType="map">
+        SELECT COUNT(*) FROM user_class
+        INNER JOIN user ON user_class.USER_ID = user.USER_ID
+        WHERE user.USER_NAME = #{studentId}
+        AND user_class.CLASS_ID = #{classId}
+    </select>
 </mapper>

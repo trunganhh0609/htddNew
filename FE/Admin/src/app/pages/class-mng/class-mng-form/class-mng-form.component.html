@@ -4,7 +4,7 @@
 <form #ngForm="ngForm" (ngSubmit)="submit(ngForm.invalid)">
 <div class="modal-body">
     <div class="form-group mb-3">
-      <label for="classCode">Class code</label>
+      <label for="classCode">Mã lớp</label>
       <input #classCode="ngModel" required [disabled]="data"
       [ngClass]="{ 'is-invalid': (submitted && classCode.invalid) || (classCode.invalid && (className.dirty || classCode.touched))}"
       type="text" class="form-control" [(ngModel)]="formData['classCode']" placeholder="Class code" name="classCode" id="classCode">
@@ -14,12 +14,34 @@
     </div>
 
     <div class="form-group mb-3">
-      <label for="className">Class name</label>
+      <label for="className">Tên lớp</label>
       <input #className="ngModel" required
       [ngClass]="{ 'is-invalid': (submitted && className.invalid) || (className.invalid && (className.dirty || className.touched))}"
       type="text" class="form-control" [(ngModel)]="formData['className']" placeholder="Class name" name="className" id="className">
       <div *ngIf="(className.invalid && submitted) || className.invalid && (className.dirty || className.touched)" class="invalid-feedback">
         <div *ngIf="className.errors.required">Tên lớp không được để trống</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="startDate">Ngày bắt đầu</label>
+      <input
+      #startDate="ngModel" required
+      [ngClass]="{ 'is-invalid': (submitted && startDate.invalid) || (startDate.invalid && (startDate.dirty || startDate.touched))}"
+      type="date" class="form-control" [(ngModel)]="formData['startDate']" name="startDate" id="startDate">
+      <div *ngIf="(startDate.invalid && submitted) || startDate.invalid && (startDate.dirty || startDate.touched)" class="invalid-feedback">
+        <div *ngIf="startDate.errors.required">Ngày bắt đầu không được để trống</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="endDate">Ngày kết thúc</label>
+      <input
+      #endDate="ngModel" required
+      [ngClass]="{ 'is-invalid': (submitted && endDate.invalid) || (endDate.invalid && (endDate.dirty || endDate.touched))}"
+      type="date" class="form-control" [(ngModel)]="formData['endDate']" name="endDate" id="endDate">
+      <div *ngIf="(endDate.invalid && submitted) || endDate.invalid && (endDate.dirty || endDate.touched)" class="invalid-feedback">
+        <div *ngIf="endDate.errors.required">Ngày kết thúc không được để trống</div>
       </div>
     </div>
 
@@ -51,6 +73,22 @@
             </ng-template>
           </p-table>
     </div>
+
+    <div class="mb-3">
+      <label class="form-check-label">Trạng thái</label>
+      <div class="form-check mb-1">
+          <input class="form-check-input" type="radio" name="status" id="inactive" (change)="formData['status'] = false" [checked]="formData['status'] == false? true : false">
+          <label class="form-check-label" for="inactive">
+              Đã kết thúc
+          </label>
+      </div>
+      <div class="form-check">
+          <input class="form-check-input" type="radio" name="status" id="active"(change)="formData['status'] = true" [checked]="formData['status'] == true? true : false">
+          <label class="form-check-label" for="active">
+              Đang học
+          </label>
+      </div>
+  </div>
 
 
 

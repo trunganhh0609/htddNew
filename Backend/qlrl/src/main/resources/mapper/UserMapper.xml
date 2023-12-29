@@ -158,4 +158,9 @@
         SELECT COUNT(*) FROM user WHERE EMAIL = #{email}
     </select>
 
+    <select id="getUserIdByUserName" parameterType="String" resultType="map">
+        SELECT USER_ID as userId FROM user
+        WHERE USER_NAME = #{userName}
+    </select>
+
 </mapper>

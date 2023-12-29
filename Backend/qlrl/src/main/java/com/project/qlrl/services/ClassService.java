@@ -154,7 +154,7 @@ public class ClassService {
         for (Map student : lstStudent){
             lstStudentId.add(student.get("userName").toString());
         }
-        param.put("lstStudentId", lstStudentId);
+        param.put("lstStudentId", lstStudentId.size()>0? lstStudentId : null);
         try {
             List<Map<Object, Object>> data = classRepository.getStudentOption(param);
             if (data.size()>0){

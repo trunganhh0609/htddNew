@@ -48,7 +48,7 @@
 
     <p *ngIf="data" class="text-primary" style="cursor: pointer;" (click)="isEditPassword = true">Change Password</p>
 
-    <div *ngIf="isEditPassword == true" class="form-group mb-3">
+    <div *ngIf="isEditPassword == true || !data" class="form-group mb-3">
       <label for="password">Password</label>
       <input
       #password="ngModel" required
@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <div *ngIf="isEditPassword == true" class="form-group mb-3">
+    <div *ngIf="isEditPassword == true  || !data" class="form-group mb-3">
       <label for="cfPassword">Confirm Password</label>
       <input
       #cfPassword="ngModel" required
@@ -72,6 +72,9 @@
         <div style="font-size: 80%;color: #f46a6a;">Xác nhận mật khẩu không khớp</div>
       </div>
     </div>
+
+    <p *ngIf="isEditPassword == true" class="text-danger" style="cursor: pointer;" (click)="isEditPassword = false">Cancel</p>
+
 
     <div class="mb-3">
       <h5 class="font-size-14 ">Gender</h5>

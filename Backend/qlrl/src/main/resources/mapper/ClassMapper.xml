@@ -109,11 +109,15 @@
         user.USER_NAME as userName,
         user.NAME as fullName
         FROM user
-        WHERE user.ROLE_ID = #{role} AND user.USER_NAME NOT IN
-        <foreach item = "item" index = "index" collection = "lstStudentId"
-                 open = "(" separator = "," close = ")">
-            #{item}
-        </foreach>
+        WHERE user.ROLE_ID = #{role}
+        <if test="lstStudentId != null">
+            AND user.USER_NAME NOT IN
+            <foreach item = "item" index = "index" collection = "lstStudentId"
+                     open = "(" separator = "," close = ")">
+                #{item}
+            </foreach>
+        </if>
+
     </select>
 
     <insert id="addStudentToClass" parameterType="map">

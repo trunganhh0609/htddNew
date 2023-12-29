@@ -11,10 +11,10 @@
             <div class="col-md-8"></div>
             <div class="col-4">
               <div class="text-end">
-                <button *ngIf="!dataTable[0]['point']" class="btn btn-primary btn-rounded mx-2" (click)="openPopup()">Tính điểm chuyên cần</button>
-                <button *ngIf="dataTable[0]['point']" class="btn btn-success btn-rounded" (click)="export()">Tải xuống Excel</button>
+                <button *ngIf="dataTable[0]['point'] == undefined" class="btn btn-primary btn-rounded mx-2" (click)="openPopup()">Tính điểm chuyên cần</button>
+                <button *ngIf="dataTable[0]['point'] >=0" class="btn btn-success btn-rounded" (click)="export()">Tải xuống Excel</button>
               </div>
-            </div>
+          </div>
           </div>
           <div #table>
             <p-table responsiveLayout="scroll" [value]="dataTable" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"

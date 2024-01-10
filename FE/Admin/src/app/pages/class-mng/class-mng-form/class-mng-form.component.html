@@ -24,6 +24,16 @@
     </div>
 
     <div class="form-group mb-3">
+      <label for="numClassPeriod">Số tiết học</label>
+      <input #numClassPeriod="ngModel" required
+      [ngClass]="{ 'is-invalid': (submitted && numClassPeriod.invalid) || (numClassPeriod.invalid && (numClassPeriod.dirty || numClassPeriod.touched))}"
+      type="number" class="form-control" [(ngModel)]="formData['numClassPeriod']" placeholder="Số tiết học" name="numClassPeriod" id="numClassPeriod">
+      <div *ngIf="(numClassPeriod.invalid && submitted) || numClassPeriod.invalid && (numClassPeriod.dirty || numClassPeriod.touched)" class="invalid-feedback">
+        <div *ngIf="numClassPeriod.errors.required">Số tiết không được để trống</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
       <label for="startDate">Ngày bắt đầu</label>
       <input
       #startDate="ngModel" required
@@ -77,15 +87,21 @@
     <div class="mb-3">
       <label class="form-check-label">Trạng thái</label>
       <div class="form-check mb-1">
-          <input class="form-check-input" type="radio" name="status" id="inactive" (change)="formData['status'] = false" [checked]="formData['status'] == false? true : false">
+        <input class="form-check-input" type="radio" name="status" id="notact" (change)="formData['status'] = '02-01'" [checked]="formData['status'] === '02-01'? true : false">
+        <label class="form-check-label" for="notact">
+            Chưa học
+        </label>
+    </div>
+      <div class="form-check mb-1">
+          <input class="form-check-input" type="radio" name="status" id="inactive" (change)="formData['status'] = '02-02'" [checked]="formData['status'] === '02-02'? true : false">
           <label class="form-check-label" for="inactive">
-              Đã kết thúc
+              Đang học
           </label>
       </div>
       <div class="form-check">
-          <input class="form-check-input" type="radio" name="status" id="active"(change)="formData['status'] = true" [checked]="formData['status'] == true? true : false">
+          <input class="form-check-input" type="radio" name="status" id="active"(change)="formData['status'] = '02-03'" [checked]="formData['status'] === '02-03'? true : false">
           <label class="form-check-label" for="active">
-              Đang học
+              Đã kết thúc
           </label>
       </div>
   </div>

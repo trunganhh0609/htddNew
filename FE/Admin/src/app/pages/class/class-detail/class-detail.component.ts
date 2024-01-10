@@ -102,13 +102,16 @@ export class ClassDetailComponent implements OnInit {
   openPopup(status:any){
     this.dialog.open(SettingAttendanceComponent,
     {
+      data: {status: status},
       width: "600px"
-    }
+    },
     ).afterClosed().subscribe(res => {
       const param = {
         classId : this.classInfo.classId,
-        lesson: this.lesson
+        lesson: this.lesson,
+        numClassPeriod: res.numClassPeriod
       }
+
       if(status == '01-02'){
         this.historyService.addHistory(param).subscribe(res => {})
       }
@@ -119,7 +122,8 @@ export class ClassDetailComponent implements OnInit {
         'timeMinute': res.timeMinute,
         'timeSecond': res.timeSecond,
         'idClass': this.classInfo.classId,
-        'status': status
+        'status': status,
+        'numClassPeriod': status == '01-02'?res.numClassPeriod: this.dataTable[0]['totalCPInLess'] - res.numClassPeriodAbsen
       }
       this.dialog.open(QrAttendanceComponent,{
         width: '600px',

@@ -1,18 +1,19 @@
       <div class="modal-header">
-        <h5 class="modal-title mt-0 fs-4">Tạo mã điểm danh</h5>
+        <h5 class="modal-title mt-0 fs-4">{{ data.status == '01-02'? "Tạo mã điểm danh" : "Tạo mã điểm danh đi muộn" }}</h5>
       </div>
+      <form #ngForm="ngForm" (ngSubmit)="submit(ngForm.invalid)">
       <div class="modal-body">
         <!-- <div class="mb-3">
           <label for="userName">Tuần</label>
           <input #week="ngModel" type="number" [(ngModel)]="dataQR['week']" name="week" required
           [ngClass]="{ 'is-invalid': (submitted && week.invalid) || (week.invalid && (week.dirty || week.touched))}"
           class="form-control" id="userName" placeholder="Nhập tuần"/>
-          <div *ngIf="(week.invalid && submitted) || week.invalid && (week.dirty || week.touched)" class="invalid-feedback">
-            <div *ngIf="week.errors.required">Trường này không được để trống</div>
+          <div *ngIf="(week.invalid && submitted) || week.invalid && (week.dirty || week.touched)" class="invalid-text">
+            <div *ngIf="week.errors.required">Không được để trống</div>
           </div>
         </div> -->
         <div class="row">
-          <div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3 form-group">
             <label for="timeReset">Thời gian đổi mã</label>
             <div class="d-flex">
               <input #timeReset="ngModel" type="number" [(ngModel)]="dataQR['timeReset']" name="timeReset" required
@@ -21,17 +22,17 @@
               <p style="margin-top: 10px">giây</p>
             </div>
 
-            <div *ngIf="(timeReset.invalid && submitted) || timeReset.invalid && (timeReset.dirty || timeReset.touched)" class="invalid-feedback">
-              <div *ngIf="timeReset.errors.required">Trường này không được để trống</div>
+            <div *ngIf="(timeReset.invalid && submitted) || timeReset.invalid && (timeReset.dirty || timeReset.touched)" class="invalid-text">
+              <div *ngIf="timeReset.errors.required">Không được để trống</div>
             </div>
           </div>
           <div class="col-md-1"></div>
           <div class="row col-md-8 mb-3">
             <label for="time">Thời gian điểm danh</label>
             <div class="col-md-6 d-flex">
-              <input #time="ngModel" type="number" [(ngModel)]="dataQR['timeMinute']" name="time" required
-              [ngClass]="{ 'is-invalid': (submitted && time.invalid) || (time.invalid && (time.dirty || time.touched))}"
-              class="form-control" id="time" placeholder="Nhập phút"/>
+              <input #timeMinute="ngModel" type="number" [(ngModel)]="dataQR['timeMinute']" name="timeMinute" required
+              [ngClass]="{ 'is-invalid': (submitted && timeMinute.invalid) || (timeMinute.invalid && (timeMinute.dirty || timeMinute.touched))}"
+              class="form-control" id="timeMinute" placeholder="Nhập phút"/>
               <p style="margin-top: 10px;">phút</p>
             </div>
             <div class="col-md-6 d-flex">
@@ -40,14 +41,44 @@
               class="form-control" id="time" placeholder="Nhập giây"/>
               <p style="margin-top: 10px;">giây</p>
             </div>
-            <div *ngIf="(time.invalid && submitted) || time.invalid && (time.dirty || time.touched)" class="invalid-feedback">
-              <div *ngIf="time.errors.required">Trường này không được để trống</div>
+            <div *ngIf="(time.invalid && submitted) || time.invalid && (time.dirty || time.touched)" class="invalid-text">
+              <div *ngIf="time.errors.required">Không được để trống</div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="data.status == '01-03'" class="row my-3">
+          <div class="col-md-12">
+            <label for="numClassPeriodAbsen">Số tiết đã nghỉ</label>
+            <div class="d-flex">
+              <input #numClassPeriodAbsen="ngModel" type="number" [(ngModel)]="dataQR['numClassPeriodAbsen']" name="numClassPeriodAbsen" required
+              [ngClass]="{ 'is-invalid': (submitted && numClassPeriodAbsen.invalid) || (numClassPeriodAbsen.invalid && (numClassPeriodAbsen.dirty || numClassPeriodAbsen.touched))}"
+              class="form-control" id="numClassPeriodAbsen" placeholder="Nhập số tiết nghỉ"/>
+            </div>
+
+            <div *ngIf="(numClassPeriodAbsen.invalid && submitted) || numClassPeriodAbsen.invalid && (timeReset.dirty || numClassPeriodAbsen.touched)" class="invalid-text">
+              <div *ngIf="numClassPeriodAbsen.errors.required">Không được để trống</div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="data.status == '01-02'" class="row my-3">
+          <div class="col-md-12">
+            <label for="numClassPeriod">Số tiết học</label>
+            <div class="d-flex">
+              <input #numClassPeriod="ngModel" type="number" [(ngModel)]="dataQR['numClassPeriod']" name="numClassPeriod" required
+              [ngClass]="{ 'is-invalid': (submitted && numClassPeriod.invalid) || (numClassPeriod.invalid && (numClassPeriod.dirty || numClassPeriod.touched))}"
+              class="form-control" id="numClassPeriod" placeholder="Nhập số tiết"/>
+            </div>
+
+            <div *ngIf="(submitted && numClassPeriod.invalid) || (numClassPeriod.invalid && (numClassPeriod.dirty || numClassPeriod.touched))" class="invalid-text">
+              <div *ngIf="numClassPeriod.errors.required">Không được để trống</div>
             </div>
           </div>
         </div>
 
         </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="submit()">Lưu</button>
+        <button type="submit" class="btn btn-primary">Lưu</button>
         <button type="button" class="btn btn-secondary"(click)="close()">Hủy</button>
       </div>
+      </form>

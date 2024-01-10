@@ -27,8 +27,8 @@
                   <th>Họ tên</th>
                   <th>Giới tính</th>
                   <th>Ngày sinh</th>
-                  <th style="width:15%">Số buổi học / Buổi điểm danh</th>
-                  <th style="width:10%">Số buổi đi muộn</th>
+                  <th style="width:15%">Số tiết đi học / Tổng số tiết GV điểm danh</th>
+                  <!-- <th style="width:10%">Số tiết nghỉ</th> -->
                   <th style="width:10%">Điểm chuyên cần</th>
                 </tr>
             </ng-template>
@@ -39,8 +39,8 @@
                   <td>{{ item.name }}</td>
                   <td>{{ item.gender? 'Nam' : 'Nữ' }}</td>
                   <td>{{ item.birthDate | date: 'dd/MM/yyyy'}}</td>
-                  <td class="text-center">{{ item.numAttendanceInClass }}/{{ item.totalAttendance }}</td>
-                  <td class="text-center">{{ item.numAttendanceLate }}</td>
+                  <td class="text-center">{{ item.sumClassPeriod }}/{{ item.totalCPInClass }}</td>
+                  <!-- <td class="text-center">{{ classInfo.totalClassPeriod - item.sumClassPeriod }}</td> -->
                   <td class="text-center" *ngIf="item.point != undefined">{{ item.point }}</td>
                   <td class="text-center" *ngIf="item.point == undefined"> - </td>
                 </tr>

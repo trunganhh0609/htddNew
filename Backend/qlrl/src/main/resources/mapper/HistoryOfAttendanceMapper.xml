@@ -5,15 +5,28 @@
 
     <insert id="addHistory" parameterType="map">
         INSERT INTO history_of_attendance
-        (`CLASS_ID`, `LESSON`, `CREATED_DATE`)
+        (`CLASS_ID`, `LESSON`, `NUM_CLASS_PERIOD`, `CREATED_DATE`)
         VALUES (
         #{classId},
         #{lesson},
+        #{numClassPeriod},
         NOW());
     </insert>
 
     <select id="countLessonAttendance" parameterType="map" resultType="Integer">
         SELECT COUNT(DISTINCT LESSON) FROM history_of_attendance
+        WHERE CLASS_ID = #{classId}
+    </select>
+
+    <select id="getTotalClassPeriodInLess" parameterType="map" resultType="map">
+        SELECT NUM_CLASS_PERIOD as totalCPInLess
+        FROM history_of_attendance
+        WHERE CLASS_ID = #{classId} AND LESSON = #{lesson}
+    </select>
+
+    <select id="getTotalClassPeriodInClass" parameterType="map" resultType="map">
+        SELECT SUM(NUM_CLASS_PERIOD) as totalCPInClass
+        FROM history_of_attendance
         WHERE CLASS_ID = #{classId}
     </select>
 

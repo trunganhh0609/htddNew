@@ -9,12 +9,18 @@
         class.CLASS_CODE as classCode,
         class.CLASS_NAME as className,
         class.START_DATE as startDate,
-        class.END_DATE as endDate
+        class.END_DATE as endDate,
+        class.STATUS as status,
+        class.TOTAL_CLASS_PERIOD as totalClassPeriod,
+        comm_code.COMM_NAME as statusName
         FROM user_class
         JOIN class ON class.CLASS_ID = user_class.CLASS_ID
         JOIN user ON user_class.USER_ID = user_class.USER_ID
-        WHERE user.USER_ID = #{uid}
+        INNER JOIN comm_code ON comm_code.COMM_CODE = class.STATUS
+        WHERE user_class.USER_ID = #{uid}
         AND user.ROLE_ID = #{teacherRole}
+        ORDER BY class.CLASS_ID DESC
+
     </select>
 
     <select id="getStudentInClass" resultType="map" parameterType="map">
@@ -36,12 +42,19 @@
         class.CLASS_ID as classId,
         class.CLASS_CODE as classCode,
         class.CLASS_NAME as className,
+        class.START_DATE as startDate,
+        class.END_DATE as endDate,
         user.USER_ID as teacherId,
-        user.NAME as teacherName
+        user.NAME as teacherName,
+        class.STATUS as status,
+        class.TOTAL_CLASS_PERIOD as numClassPeriod,
+        comm_code.COMM_NAME as statusName
         FROM class
         INNER JOIN user_class ON class.CLASS_ID = user_class.CLASS_ID
         INNER JOIN user ON user.USER_ID = user_class.USER_ID
+        INNER JOIN comm_code ON comm_code.COMM_CODE = class.STATUS
         WHERE user.ROLE_ID = 'ROLE002'
+        ORDER BY class.CLASS_ID DESC
     </select>
 
     <select id="searchTeacher" parameterType="String" resultType="map">
@@ -58,12 +71,20 @@
         INSERT INTO class
         (
         CLASS_CODE,
-        CLASS_NAME
+        CLASS_NAME,
+        TOTAL_CLASS_PERIOD,
+        START_DATE,
+        END_DATE,
+        STATUS
         )
         VALUES
         (
         #{classCode},
-        #{className}
+        #{className},
+        #{numClassPeriod},
+        #{startDate},
+        #{endDate},
+        #{status}
         )
     </insert>
 
@@ -83,7 +104,11 @@
     <update id="updateClass" parameterType="map">
         UPDATE class
         SET
-        CLASS_NAME = #{className}
+        CLASS_NAME = #{className},
+        START_DATE = #{startDate},
+        TOTAL_CLASS_PERIOD = #{numClassPeriod},
+        END_DATE = #{endDate},
+        STATUS = #{status}
         WHERE CLASS_ID = #{classId}
     </update>
 
@@ -109,15 +134,11 @@
         user.USER_NAME as userName,
         user.NAME as fullName
         FROM user
-        WHERE user.ROLE_ID = #{role}
-        <if test="lstStudentId != null">
-            AND user.USER_NAME NOT IN
-            <foreach item = "item" index = "index" collection = "lstStudentId"
-                     open = "(" separator = "," close = ")">
-                #{item}
-            </foreach>
-        </if>
-
+        WHERE user.ROLE_ID = #{role} AND user.USER_NAME NOT IN
+        <foreach item = "item" index = "index" collection = "lstStudentId"
+                 open = "(" separator = "," close = ")">
+            #{item}
+        </foreach>
     </select>
 
     <insert id="addStudentToClass" parameterType="map">
@@ -139,4 +160,19 @@
         WHERE user.USER_NAME = #{studentId}
         AND user_class.CLASS_ID = #{classId}
     </select>
+
+    <select id="checkClassExisting" resultType="Integer" parameterType="String">
+        SELECT COUNT(*) FROM class
+        WHERE class.CLASS_CODE = #{classCode}
+    </select>
+
+    <update id="updateStatusExpired" parameterType="map">
+        UPDATE class SET STATUS = #{status}  WHERE NOW() >= class.END_DATE
+    </update>
+
+    <update id="updateStatusStart" parameterType="map">
+        UPDATE class SET STATUS = #{status}  WHERE NOW() >= class.START_DATE
+    </update>
+
+
 </mapper>

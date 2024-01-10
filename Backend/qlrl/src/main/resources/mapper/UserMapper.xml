@@ -17,7 +17,11 @@
         user.GENDER as gender,
         user.ROLE_ID as roleId
         FROM user
-<!--        WHERE-->
+        <if test="roleId != null and roleId != ''">
+            WHERE user.ROLE_ID = #{roleId}
+        </if>
+        ORDER BY CREATED_DATE DESC
+<!--        WHERE role.ROLE_ID = #{roleId}-->
 <!--        user.USER_NAME LIKE CONCAT('%', #{userName}, '%')-->
 <!--        AND user.NAME LIKE CONCAT('%', #{fullName}, '%')-->
 <!--        <if test="roleId != null and roleId != ''">-->
@@ -65,7 +69,8 @@
         <if test="email != null and email != ''">
             `EMAIL`,
         </if>
-        `ROLE_ID`)
+        `ROLE_ID`,
+        `CREATED_DATE`)
         VALUES (
         #{USER_NAME},
         #{PASSWORD},
@@ -75,7 +80,8 @@
         <if test="email != null and email != ''">
             #{email},
         </if>
-        #{ROLE_ID});
+        #{ROLE_ID},
+        NOW());
     </insert>
 
     <insert id="addUserToClass" parameterType="map">

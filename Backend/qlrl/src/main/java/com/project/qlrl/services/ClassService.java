@@ -10,14 +10,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class ClassService {
@@ -28,10 +29,10 @@ public class ClassService {
     ClassRepository classRepository;
 
     @Autowired
-    UserService userService;
+    AttendanceRepository attendanceRepository;
 
     @Autowired
-    AttendanceRepository attendanceRepository;
+    UserService userService;
 
     @Autowired
     HistoryOfAttendanceRepository historyOfAttendanceRepository;
@@ -49,6 +50,14 @@ public class ClassService {
         param.put("classId", classId);
         param.put("studentRole", CommonConst.USER_ROLE_STUDENT);
         param.put("lesson", lesson);
+        int totalCPInLess = 0;
+        int totalClassPeriodInClass = 0;
+        try {
+            totalClassPeriodInClass = Integer.parseInt(historyOfAttendanceRepository.getTotalClassPeriodInClass(param).get("totalCPInClass").toString());
+            totalCPInLess = (int) historyOfAttendanceRepository.getTotalClassPeriodInLess(param).get("totalCPInLess");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         List<Map<Object,Object>> lstStudent = classRepository.getStudentInClass(param);
         List<Map<Object,Object>> lstAttendanceInLesson = attendanceRepository.getListAttendanceInLesson(param);
         int totalAttendanceInHis = historyOfAttendanceRepository.countLessonAttendance(param);
@@ -59,7 +68,14 @@ public class ClassService {
 
                     param.put("userId", lstStudent.get(i).get("userId"));
 
+                    if(totalCPInLess > 0){
+                        lstStudent.get(i).put("totalCPInLess", totalCPInLess);
+                    }
+                    if(totalClassPeriodInClass > 0){
+                        lstStudent.get(i).put("totalCPInClass", totalClassPeriodInClass);
+                    }
                     lstStudent.get(i).put("status", lstAttendanceInLesson.get(j).get("status"));
+                    lstStudent.get(i).put("numClassPeriod", lstAttendanceInLesson.get(j).get("numClassPeriod"));
                     lstStudent.get(i).put("statusName", lstAttendanceInLesson.get(j).get("commName"));
                     lstStudent.get(i).put("numAttendanceInClass", attendanceRepository.countNumAttendanceOfStudent(param));
                     lstStudent.get(i).put("totalAttendance", totalAttendanceInHis);
@@ -99,9 +115,20 @@ public class ClassService {
     public Map<Object,Object> addClass(Map<Object,Object> param){
         Map<Object,Object> result = new HashMap<>();
         try {
-            classRepository.addClass(param);
-            classRepository.addTeacherInClass(param);
-            result.put("status", true);
+            if(classRepository.checkClassExisting(param.get("classCode").toString()) <= 0){
+                String pattern = "yyyy-MM-dd";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                String startDate = simpleDateFormat.format(new Date(param.get("startDateFormat").toString()));
+                String endDate = simpleDateFormat.format(new Date(param.get("endDateFormat").toString()));
+                param.put("startDate", startDate);
+                param.put("endDate", endDate);
+                classRepository.addClass(param);
+                classRepository.addTeacherInClass(param);
+                result.put("status", true);
+            }else {
+                result.put("existing", true);
+            }
+
         }catch (Exception e){
             e.printStackTrace();
             result.put("status", false);
@@ -163,7 +190,7 @@ public class ClassService {
         for (Map student : lstStudent){
             lstStudentId.add(student.get("userName").toString());
         }
-        param.put("lstStudentId", lstStudentId.size()>0? lstStudentId : null);
+        param.put("lstStudentId", lstStudentId);
         try {
             List<Map<Object, Object>> data = classRepository.getStudentOption(param);
             if (data.size()>0){
@@ -248,4 +275,5 @@ public class ClassService {
         }
         return number;
     }
+
 }

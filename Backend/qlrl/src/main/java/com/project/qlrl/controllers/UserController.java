@@ -20,7 +20,9 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/searchUser")
-    public Map<Object, Object> searchUser(@RequestParam Map param){
+    public Map<Object, Object> searchUser(@RequestParam String roleId){
+        Map param = new HashMap();
+        param.put("roleId", roleId);
         return userService.searchUser(param);
     }
 

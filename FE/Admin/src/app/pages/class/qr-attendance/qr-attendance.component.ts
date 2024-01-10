@@ -31,7 +31,8 @@ export class QrAttendanceComponent implements OnInit {
      + this.data.idClass + ';'
      + this.formatDate(new Date()) + ';'
      + this.formatDate(time) + ';'
-     + this.data.status
+     + this.data.status + ';'
+     + this.data.numClassPeriod;
   }
   closePopup(){
     this.updateSubscription.unsubscribe()

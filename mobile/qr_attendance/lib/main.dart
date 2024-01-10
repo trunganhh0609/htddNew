@@ -94,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String startExpiredString = '';
       String expiredString = '';
       String status = '';
+      String numClassPeriod = '';
 
       int count = 0;
       int i = 0;
@@ -143,6 +144,15 @@ class _MyHomePageState extends State<MyHomePage> {
             i++;
           }
         }
+        if(count == 5){
+          if(data[i] != ';'){
+            numClassPeriod += data[i];
+            i++;
+          }else{
+            count++;
+            i++;
+          }
+        }
       }
 
       DateTime startexpiredTime = DateTime.parse(startExpiredString);
@@ -156,7 +166,8 @@ class _MyHomePageState extends State<MyHomePage> {
           'lesson': lesson,
           'classId': idClass,
           'status': status,
-          'deviceId': userController.deviceId.value
+          'deviceId': userController.deviceId.value,
+          'numClassPeriod': numClassPeriod
         };
         if(await checkDeviceId(param) == true){
           print("true");

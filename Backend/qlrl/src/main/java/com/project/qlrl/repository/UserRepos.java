@@ -44,6 +44,6 @@ public interface UserRepos {
     int checkUserNameExist (String userName);
 
     int checkEmailExist(String email);
-    Map<Object,Object> getUserIdByUserName(String userName);
 
+    Map<Object,Object> getUserIdByUserName(String userName);
 }

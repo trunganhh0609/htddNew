@@ -41,7 +41,6 @@ public class SecurityConfig {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/api/img-view/**").permitAll()
                 .antMatchers("/api/uploadFile").permitAll()
-                .antMatchers("/api/importExcel").permitAll()
                 .antMatchers("/api/class/importExcelStudent").permitAll()
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated().and().exceptionHandling()

@@ -36,8 +36,10 @@ export class ClassMngFormComponent implements OnInit {
       this.formData['teacherName'] = this.data['teacherName'];
 
     }else{
-      this.formData['status'] = false
+      this.formData['status'] = "02-03"
     }
+    console.log(this.formData);
+
   }
 
   submit(invalid) {
@@ -47,6 +49,14 @@ export class ClassMngFormComponent implements OnInit {
           position: 'top-end',
           icon: 'warning',
           title: 'Ngày bắt đầu và ngày kết thúc không hợp lệ',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }else if(!this.formData["teacherId"]){
+        Swal.fire({
+          position: 'top-end',
+          icon: 'warning',
+          title: 'Vui lòng chọn giảng viên phụ trách',
           showConfirmButton: false,
           timer: 1500
         })

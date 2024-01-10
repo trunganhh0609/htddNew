@@ -22,6 +22,7 @@
                   <th>Giảng viên phụ trách</th>
                   <th>Ngày bắt đầu</th>
                   <th>Ngày kết thúc</th>
+                  <th>Số tiết</th>
                   <th>Trạng thái</th>
                   <th></th>
                 </tr>
@@ -34,9 +35,11 @@
                   <td>{{ item.teacherName }}</td>
                   <td>{{ item.startDate | date: 'dd/MM/yyyy' }}</td>
                   <td>{{ item.endDate | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ item.numClassPeriod }}</td>
                   <td class="text-center">
-                    <span *ngIf="item.status == true" class="badge rounded-pill bg-success fs-6">Đang học</span>
-                    <span *ngIf="item.status == false" class="badge rounded-pill bg-danger fs-6">Đã kết thúc</span>
+                    <span *ngIf="item.status == '02-01'" class="badge rounded-pill bg-warning fs-6">{{ item.statusName }}</span>
+                    <span *ngIf="item.status == '02-02'" class="badge rounded-pill bg-success fs-6">{{ item.statusName }}</span>
+                    <span *ngIf="item.status == '02-03'" class="badge rounded-pill bg-danger fs-6">{{ item.statusName }}</span>
                   </td>
                   <td>
                     <div>

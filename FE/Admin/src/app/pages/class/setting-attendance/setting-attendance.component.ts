@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-setting-attendance',
@@ -14,14 +14,17 @@ export class SettingAttendanceComponent implements OnInit {
     timeSecond : 0
   }
   constructor(
-    public dialogRef: MatDialogRef<SettingAttendanceComponent>
+    public dialogRef: MatDialogRef<SettingAttendanceComponent>,
+    @Inject(MAT_DIALOG_DATA) public data,
   ) { }
 
   ngOnInit(): void {
   }
-  submit(){
+  submit(invalid){
     this.submitted = true;
-    this.dialogRef.close(this.dataQR);
+    if(!invalid) {
+      this.dialogRef.close(this.dataQR);
+    }
   }
   close(){
     this.dialogRef.close();

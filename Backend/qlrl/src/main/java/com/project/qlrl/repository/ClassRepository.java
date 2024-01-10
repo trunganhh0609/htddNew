@@ -27,5 +27,9 @@ public interface ClassRepository {
     public int deleteStudentInClass(Map<Object,Object> param);
 
     public int checkStudentExisting(Map<Object,Object> param);
+    public int checkClassExisting(String classCode);
+    public int updateStatusExpired(Map<Object,Object> param);
+    public int updateStatusStart(Map<Object,Object> param);
+
 
 }

@@ -62,13 +62,24 @@ public class PointService {
         param.put("studentRole", CommonConst.USER_ROLE_STUDENT);
         List<Map<Object,Object>> lstStudent = classRepository.getStudentInClass(param);
         List<Map<Object, Object>> lstPoint = pointRepository.getPoint(param);
-        int totalAttendanceInHis = historyOfAttendanceRepository.countLessonAttendance(param);
+        int totalClassPeriodInClass = 0;
+        try {
+            totalClassPeriodInClass = Integer.parseInt(historyOfAttendanceRepository.getTotalClassPeriodInClass(param).get("totalCPInClass").toString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+//        int totalAttendanceInHis = historyOfAttendanceRepository.countLessonAttendance(param);
 
         for (int i = 0; i < lstStudent.size(); i++) {
             param.put("userId", lstStudent.get(i).get("userId"));
-            lstStudent.get(i).put("numAttendanceInClass", attendanceRepository.countNumAttendanceOfStudent(param));
-            lstStudent.get(i).put("totalAttendance", totalAttendanceInHis);
-            lstStudent.get(i).put("numAttendanceLate", attendanceRepository.countNumAttendanceLate(param));
+
+//            lstStudent.get(i).put("numAttendanceInClass", attendanceRepository.countNumAttendanceOfStudent(param));
+            if(totalClassPeriodInClass > 0){
+                lstStudent.get(i).put("totalCPInClass", totalClassPeriodInClass);
+            }
+            lstStudent.get(i).put("sumClassPeriod", attendanceRepository.getSumClassPeriod(param).get("sum"));
+//            lstStudent.get(i).put("totalAttendance", totalAttendanceInHis);
+//            lstStudent.get(i).put("numAttendanceLate", attendanceRepository.countNumAttendanceLate(param));
 
             if(lstPoint.size() > 0){
                 for (int j = 0; j < lstPoint.size(); j++) {

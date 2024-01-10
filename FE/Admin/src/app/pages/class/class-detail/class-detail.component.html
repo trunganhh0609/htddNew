@@ -21,8 +21,8 @@
             <div class="col-2">
               <!-- <div *ngIf="thisLesson <= lstLesson.length"  class="text-end"> -->
                 <div  class="text-end">
-                <button  class="btn btn-primary btn-rounded" (click)="openPopup('01-02')" >Điểm danh</button>
-                <button class="btn btn-warning btn-rounded m-2" style="margin-right: 0!important;" (click)="openPopup('01-03')">Điểm danh đi muộn</button>
+                <button [disabled]="dataTable[0]['totalCPInLess']" class="btn btn-primary btn-rounded" (click)="openPopup('01-02')" >Điểm danh</button>
+                <button [disabled]="thisLesson > lesson" class="btn btn-warning btn-rounded m-2" style="margin-right: 0!important;" (click)="openPopup('01-03')">Điểm danh đi muộn</button>
               </div>
             </div>
           </div>
@@ -37,8 +37,8 @@
                 <th>Giới tính</th>
                 <th>Ngày sinh</th>
                 <th class="text-center">Trạng thái</th>
-                <th style="width:15%">Số buổi học / Buổi điểm danh</th>
-                <th>Số buổi đi muộn</th>
+                <th style="width:15%">Số tiết học</th>
+                <th>Số tiết nghỉ trong buổi</th>
               </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item let-i="rowIndex">
@@ -54,8 +54,9 @@
                   <span *ngIf="item.status == '01-04'" class="badge rounded-pill bg-danger fs-6"> {{ item.statusName }} </span>
                   <span *ngIf="item.status == undefined" class="badge rounded-pill bg-secondary fs-6">Chưa điểm danh</span>
                 </td>
-                <td class="text-center">{{ item.numAttendanceInClass }}/{{ item.totalAttendance }}</td>
-                <td class="text-center">{{ item.numAttendanceLate }}</td>
+                <!-- <td class="text-center">{{ item.numAttendanceInClass }}/{{ item.totalAttendance }}</td> -->
+                <td class="text-center">{{ item.totalCPInLess?item.totalCPInLess : "-" }}</td>
+                <td class="text-center">{{ item.totalCPInLess?(item.totalCPInLess - item.numClassPeriod) : "-" }}</td>
               </tr>
           </ng-template>
         </p-table>

@@ -12,25 +12,27 @@
         <if test="deviceId != null and deviceId != ''">
             DEVICE_ID,
         </if>
-        LESSON, STATUS, CREATED_DATE)
+        LESSON, STATUS,NUM_CLASS_PERIOD, CREATED_DATE)
         VALUES (#{userId}, #{classId},
         <if test="deviceId != null and deviceId != ''">
             #{deviceId},
         </if>
-        #{lesson}, #{status}, NOW());
+        #{lesson}, #{status}, #{numClassPeriod}, NOW());
     </insert>
 
     <update id="attendanceLate" parameterType="map">
         UPDATE attendance SET STATUS = '01-03', DEVICE_ID = #{deviceId} WHERE
         USER_ID = #{userId}
-        AND CLASS_ID = #{classId}
+        AND CLASS_ID = #{idClass}
+        AND SUBJECT_ID = #{idSubject}
         AND LESSON = #{lesson};
     </update>
 
     <select id="checkDeviceId" parameterType="map" resultType="int">
         SELECT COUNT(*) FROM attendance
         WHERE LESSON = #{lesson}
-        AND CLASS_ID = #{classId}
+        AND CLASS_ID = #{idClass}
+        AND SUBJECT_ID = #{idSubject}
         AND DEVICE_ID = #{deviceId}
     </select>
 
@@ -39,6 +41,7 @@
         attendance.USER_ID as userId,
         attendance.LESSON as lesson,
         attendance.STATUS as status,
+        attendance.NUM_CLASS_PERIOD as numClassPeriod,
         comm_code.COMM_NAME as commName
         FROM attendance INNER JOIN comm_code
         ON attendance.STATUS = comm_code.COMM_CODE
@@ -64,5 +67,9 @@
         WHERE USER_ID = #{userId}
         AND CLASS_ID = #{classId}
         AND STATUS = '01-03'
+    </select>
+
+    <select id="getSumClassPeriod" parameterType="map" resultType="map">
+        SELECT SUM(NUM_CLASS_PERIOD) as sum FROM attendance WHERE attendance.USER_ID = #{userId} AND attendance.CLASS_ID = #{classId}
     </select>
 </mapper>

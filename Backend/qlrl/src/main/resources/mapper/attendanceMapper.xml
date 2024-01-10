@@ -21,10 +21,9 @@
     </insert>
 
     <update id="attendanceLate" parameterType="map">
-        UPDATE attendance SET STATUS = '01-03', DEVICE_ID = #{deviceId} WHERE
+        UPDATE attendance SET STATUS = '01-03', DEVICE_ID = #{deviceId}, NUM_CLASS_PERIOD= #{numClassPeriod} WHERE
         USER_ID = #{userId}
         AND CLASS_ID = #{idClass}
-        AND SUBJECT_ID = #{idSubject}
         AND LESSON = #{lesson};
     </update>
 
@@ -32,7 +31,6 @@
         SELECT COUNT(*) FROM attendance
         WHERE LESSON = #{lesson}
         AND CLASS_ID = #{idClass}
-        AND SUBJECT_ID = #{idSubject}
         AND DEVICE_ID = #{deviceId}
     </select>
 

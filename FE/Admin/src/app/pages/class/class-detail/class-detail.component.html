@@ -21,7 +21,7 @@
             <div class="col-2">
               <!-- <div *ngIf="thisLesson <= lstLesson.length"  class="text-end"> -->
                 <div  class="text-end">
-                <button [disabled]="dataTable[0]['totalCPInLess']" class="btn btn-primary btn-rounded" (click)="openPopup('01-02')" >Điểm danh</button>
+                <button [disabled]="dataTable[0]['totalCPInLess'] || thisLesson > lesson" class="btn btn-primary btn-rounded" (click)="openPopup('01-02')" >Điểm danh</button>
                 <button [disabled]="thisLesson > lesson" class="btn btn-warning btn-rounded m-2" style="margin-right: 0!important;" (click)="openPopup('01-03')">Điểm danh đi muộn</button>
               </div>
             </div>

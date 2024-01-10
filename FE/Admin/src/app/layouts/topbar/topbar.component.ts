@@ -49,8 +49,8 @@ export class TopbarComponent implements OnInit {
   /**
    * Logout the user
    */
-  logout() {
-      this.authService.logout();
+  async logout() {
+      await this.authService.logout();
       // this.authFackservice.logout();
     this.router.navigate(['/account/login']);
   }

@@ -42,7 +42,7 @@ export class ClassComponent implements OnInit {
 
   listStudent(data:any){
     this.router.navigate(['class/class-detail'], {
-      queryParams: {classId: data.classId, className: data.className, startDate: data.startDate, endDate: data.endDate, totalClassPeriod: data.totalClassPeriod}
+      queryParams: {classId: data.classId, className: data.className, startDate: data.startDate, endDate: data.endDate, totalClassPeriod: data.totalClassPeriod, status: data.status}
     })
   }
 }

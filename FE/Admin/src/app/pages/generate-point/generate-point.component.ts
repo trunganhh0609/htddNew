@@ -37,7 +37,7 @@ export class GeneratePointComponent implements OnInit {
 
   listStudent(data:any){
     this.router.navigate(['gen-point/class-point'], {
-      queryParams: {classId: data.classId, className: data.className, startDate: data.startDate, endDate: data.endDate, totalClassPeriod: data.totalClassPeriod}
+      queryParams: {classId: data.classId, className: data.className, startDate: data.startDate, endDate: data.endDate, totalClassPeriod: data.totalClassPeriod, status:data.status}
     })
   }
 }

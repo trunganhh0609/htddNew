@@ -29,7 +29,7 @@ export class AuthenticationService {
   // }
 
 
-  logout(){
-    AuthenticationUtil.deleteAllCookie();
+  async logout(){
+    await AuthenticationUtil.deleteAllCookie();
   }
 }

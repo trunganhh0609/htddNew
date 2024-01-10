@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,36 +61,41 @@ public class PointService {
         Map<Object,Object> param = new HashMap<>();
         param.put("classId", classId);
         param.put("studentRole", CommonConst.USER_ROLE_STUDENT);
-        List<Map<Object,Object>> lstStudent = classRepository.getStudentInClass(param);
-        List<Map<Object, Object>> lstPoint = pointRepository.getPoint(param);
-        int totalClassPeriodInClass = 0;
-        try {
-            totalClassPeriodInClass = Integer.parseInt(historyOfAttendanceRepository.getTotalClassPeriodInClass(param).get("totalCPInClass").toString());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        List<Map<Object,Object>> lstStudent = new ArrayList<>();
+        lstStudent = classRepository.getStudentInClass(param);
+        if(lstStudent.size() > 0){
+            List<Map<Object, Object>> lstPoint = pointRepository.getPoint(param);
+            int totalClassPeriodInClass = 0;
+            try {
+                totalClassPeriodInClass = Integer.parseInt(historyOfAttendanceRepository.getTotalClassPeriodInClass(param).get("totalCPInClass").toString());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 //        int totalAttendanceInHis = historyOfAttendanceRepository.countLessonAttendance(param);
-
-        for (int i = 0; i < lstStudent.size(); i++) {
-            param.put("userId", lstStudent.get(i).get("userId"));
+            if(totalClassPeriodInClass > 0) {
+                for (int i = 0; i < lstStudent.size(); i++) {
+                    param.put("userId", lstStudent.get(i).get("userId"));
 
 //            lstStudent.get(i).put("numAttendanceInClass", attendanceRepository.countNumAttendanceOfStudent(param));
-            if(totalClassPeriodInClass > 0){
-                lstStudent.get(i).put("totalCPInClass", totalClassPeriodInClass);
-            }
-            lstStudent.get(i).put("sumClassPeriod", attendanceRepository.getSumClassPeriod(param).get("sum"));
+
+                    lstStudent.get(i).put("totalCPInClass", totalClassPeriodInClass);
+
+                    lstStudent.get(i).put("sumClassPeriod", attendanceRepository.getSumClassPeriod(param).get("sum"));
 //            lstStudent.get(i).put("totalAttendance", totalAttendanceInHis);
 //            lstStudent.get(i).put("numAttendanceLate", attendanceRepository.countNumAttendanceLate(param));
 
-            if(lstPoint.size() > 0){
-                for (int j = 0; j < lstPoint.size(); j++) {
-                    if(lstStudent.get(i).get("userId").toString().equals(lstPoint.get(j).get("userId").toString())){
-                        lstStudent.get(i).put("point", lstPoint.get(j).get("point"));
+                    if (lstPoint.size() > 0) {
+                        for (int j = 0; j < lstPoint.size(); j++) {
+                            if (lstStudent.get(i).get("userId").toString().equals(lstPoint.get(j).get("userId").toString())) {
+                                lstStudent.get(i).put("point", lstPoint.get(j).get("point"));
+                            }
+                        }
+
                     }
                 }
-
             }
         }
+
         return lstStudent;
     }
 

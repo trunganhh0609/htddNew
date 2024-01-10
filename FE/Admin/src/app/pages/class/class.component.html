@@ -14,6 +14,7 @@
                   <th>#</th>
                   <th>Mã lớp</th>
                   <th>Tên lớp</th>
+                  <th class="text-center">Trạng thái</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item let-i="rowIndex">
@@ -21,6 +22,11 @@
                   <td> {{ i+1 }} </td>
                   <td>{{ item.classCode }}</td>
                   <td>{{ item.className }}</td>
+                  <td class="text-center">
+                    <span *ngIf="item.status == '02-01'" class="badge rounded-pill bg-warning fs-6">{{ item.statusName }}</span>
+                    <span *ngIf="item.status == '02-02'" class="badge rounded-pill bg-success fs-6">{{ item.statusName }}</span>
+                    <span *ngIf="item.status == '02-03'" class="badge rounded-pill bg-danger fs-6">{{ item.statusName }}</span>
+                  </td>
                 </tr>
             </ng-template>
           </p-table>

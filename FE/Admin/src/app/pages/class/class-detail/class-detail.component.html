@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-body">
           <h2>{{ classInfo.className }}</h2>
-          <div class="row my-4">
+          <div *ngIf="dataTable.length > 0" class="row my-4">
             <div class="col-md-2">
               <label>Buổi học</label>
               <select class="form-select" [(ngModel)]="lesson" (change)="getClassInfo()">
@@ -16,17 +16,20 @@
             </div>
 
           </div>
-          <div class="row mb-3">
+          <div *ngIf="dataTable.length > 0" class="row mb-3">
             <div class="col-md-10"></div>
             <div class="col-2">
               <!-- <div *ngIf="thisLesson <= lstLesson.length"  class="text-end"> -->
                 <div  class="text-end">
-                <button [disabled]="dataTable[0]['totalCPInLess']" class="btn btn-primary btn-rounded" (click)="openPopup('01-02')" >Điểm danh</button>
-                <button [disabled]="thisLesson > lesson" class="btn btn-warning btn-rounded m-2" style="margin-right: 0!important;" (click)="openPopup('01-03')">Điểm danh đi muộn</button>
+                <button [disabled]="classInfo.status != '02-02' || (dataTable.length && dataTable[0]['totalCPInLess'])" class="btn btn-primary btn-rounded" (click)="openPopup('01-02')" >Điểm danh</button>
+                <button [disabled]="classInfo.status != '02-02' || (thisLesson > lesson)" class="btn btn-warning btn-rounded m-2" style="margin-right: 0!important;" (click)="openPopup('01-03')">Điểm danh đi muộn</button>
               </div>
             </div>
           </div>
-          <p-table responsiveLayout="scroll" [value]="dataTable" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          <div *ngIf="!(dataTable.length > 0)" class="text-center col-md-12">
+            Lớp hiện chưa được thêm sinh viên
+          </div>
+          <p-table *ngIf="dataTable.length > 0" responsiveLayout="scroll" [value]="dataTable" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
           [rowsPerPageOptions]="[10,25,50]"
           [rowHover]="true">
           <ng-template pTemplate="header">

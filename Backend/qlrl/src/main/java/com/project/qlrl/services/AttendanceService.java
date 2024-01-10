@@ -47,7 +47,7 @@ public class AttendanceService {
             for (int i = 0; i < lstAbsent.size() ; i++) {
                 boolean isAdd = true;
                 for (int j = 0; j < listAttendance.size(); j++) {
-                    if(listAttendance.get(j).get("userId").toString().equals(lstAbsent.get(i).get("userId"))){
+                    if(listAttendance.get(j).get("userId").toString().equals(lstAbsent.get(i).get("userId").toString())){
                         isAdd = false;
                     }
                 }

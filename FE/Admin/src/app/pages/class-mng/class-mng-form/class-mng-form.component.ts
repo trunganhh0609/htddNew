@@ -34,6 +34,7 @@ export class ClassMngFormComponent implements OnInit {
       this.formData['status'] = this.data['status'];
       this.formData['teacherId'] = this.data['teacherId'];
       this.formData['teacherName'] = this.data['teacherName'];
+      this.formData['numClassPeriod'] = this.data['numClassPeriod'];
 
     }else{
       this.formData['status'] = "02-03"

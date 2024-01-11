@@ -53,8 +53,10 @@ public class ClassService {
         int totalCPInLess = 0;
         int totalClassPeriodInClass = 0;
         try {
-            totalClassPeriodInClass = Integer.parseInt(historyOfAttendanceRepository.getTotalClassPeriodInClass(param).get("totalCPInClass").toString());
-            totalCPInLess = (int) historyOfAttendanceRepository.getTotalClassPeriodInLess(param).get("totalCPInLess");
+            if(historyOfAttendanceRepository.getTotalClassPeriodInClass(param)!=null){
+                totalClassPeriodInClass = Integer.parseInt(historyOfAttendanceRepository.getTotalClassPeriodInClass(param).get("totalCPInClass").toString());
+                totalCPInLess = (int) historyOfAttendanceRepository.getTotalClassPeriodInLess(param).get("totalCPInLess");
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -63,18 +65,19 @@ public class ClassService {
         int totalAttendanceInHis = historyOfAttendanceRepository.countLessonAttendance(param);
 
         for (int i = 0; i < lstStudent.size(); i++) {
+            param.put("userId", lstStudent.get(i).get("userId"));
+
+            if(totalCPInLess > 0){
+                lstStudent.get(i).put("totalCPInLess", totalCPInLess);
+            }
+            if(totalClassPeriodInClass > 0){
+                lstStudent.get(i).put("totalCPInClass", totalClassPeriodInClass);
+            }
+            if(attendanceRepository.getSumClassPeriod(param)!=null){
+                lstStudent.get(i).put("sumClassPeriod", attendanceRepository.getSumClassPeriod(param).get("sum"));
+            }
             for (int j = 0; j < lstAttendanceInLesson.size(); j++) {
                 if(lstStudent.get(i).get("userId").equals(lstAttendanceInLesson.get(j).get("userId"))){
-
-                    param.put("userId", lstStudent.get(i).get("userId"));
-
-                    if(totalCPInLess > 0){
-                        lstStudent.get(i).put("totalCPInLess", totalCPInLess);
-                    }
-                    if(totalClassPeriodInClass > 0){
-                        lstStudent.get(i).put("totalCPInClass", totalClassPeriodInClass);
-                    }
-                    lstStudent.get(i).put("sumClassPeriod", attendanceRepository.getSumClassPeriod(param).get("sum"));
                     lstStudent.get(i).put("status", lstAttendanceInLesson.get(j).get("status"));
                     lstStudent.get(i).put("numClassPeriod", lstAttendanceInLesson.get(j).get("numClassPeriod"));
                     lstStudent.get(i).put("statusName", lstAttendanceInLesson.get(j).get("commName"));

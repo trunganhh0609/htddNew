@@ -46,7 +46,7 @@
               </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item let-i="rowIndex">
-              <tr [class]="roundData(100 - (item.sumClassPeriod/item.totalCPInClass)*100)>=30?'bg-warning':''">
+              <tr [class]= "roundData(100 - (item.sumClassPeriod/item.totalCPInClass)*100)>=30?'bg-warning':''">
                 <th scope="row">{{ i+1 }}</th>
                 <td>{{ item.userName }}</td>
                 <td>{{ item.name }}</td>
@@ -61,7 +61,7 @@
                 <!-- <td class="text-center">{{ item.numAttendanceInClass }}/{{ item.totalAttendance }}</td> -->
                 <td class="text-center">{{ item.totalCPInLess?item.totalCPInLess : "-" }}</td>
                 <td class="text-center">{{ item.totalCPInLess?(item.totalCPInLess - item.numClassPeriod) : "-" }}</td>
-                <td class="text-center">{{ roundData(100 - (item.sumClassPeriod/item.totalCPInClass)*100) }}%</td>
+                <td class="text-center">{{ item.totalCPInClass?roundData(100 - (item.sumClassPeriod/item.totalCPInClass)*100) + '%': '-' }}</td>
               </tr>
           </ng-template>
         </p-table>

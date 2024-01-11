@@ -102,4 +102,16 @@ public class AttendanceService {
         }
         return result;
     }
+
+    public Map<Object,Object> checkStudentInClass(Map<Object,Object> param){
+        Map<Object,Object> result = new HashMap<>();
+        try {
+            int rs = attendanceRepository.checkStudentInClass(param);
+            result.put("existing", rs>0? true:false);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("error", "error");
+        }
+        return result;
+    }
 }

@@ -52,6 +52,28 @@ class AttendanceNetWork{
     }
   }
 
+  Future<Map<String,dynamic>> checkStudentInClass(Map param) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    String token = '';
+    token = (await pref.getString("Token"))!;
+    final Response response = await http.post(
+        Uri.parse('${url}checkDeviceId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': "Bearer " + token
+        },
+        body: jsonEncode(param)
+    );
+    if (response.statusCode == 200) {
+      print(response);
+      final res = json
+          .decode(utf8.decode(response.bodyBytes));
+      return res;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getClass(String studentID) async {
     Map<Object,Object> data = {
       "PASSWORD":  '\$es5rRk#G6RSr275Rq!',

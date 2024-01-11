@@ -149,6 +149,9 @@ export class ClassDetailComponent implements OnInit {
   return Math.abs(Math.round(diff));
  }
 
+ roundData(data){
+  return Math.round(data * 10**2)/100;
+ }
 
 }
 

@@ -74,6 +74,7 @@ public class ClassService {
                     if(totalClassPeriodInClass > 0){
                         lstStudent.get(i).put("totalCPInClass", totalClassPeriodInClass);
                     }
+                    lstStudent.get(i).put("sumClassPeriod", attendanceRepository.getSumClassPeriod(param).get("sum"));
                     lstStudent.get(i).put("status", lstAttendanceInLesson.get(j).get("status"));
                     lstStudent.get(i).put("numClassPeriod", lstAttendanceInLesson.get(j).get("numClassPeriod"));
                     lstStudent.get(i).put("statusName", lstAttendanceInLesson.get(j).get("commName"));
@@ -190,7 +191,7 @@ public class ClassService {
         for (Map student : lstStudent){
             lstStudentId.add(student.get("userName").toString());
         }
-        param.put("lstStudentId", lstStudentId);
+        param.put("lstStudentId", lstStudentId.size()>0? lstStudentId: null);
         try {
             List<Map<Object, Object>> data = classRepository.getStudentOption(param);
             if (data.size()>0){

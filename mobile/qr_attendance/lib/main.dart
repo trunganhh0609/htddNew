@@ -81,6 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
       return true;
     }else return false;
   }
+  checkStudentInClass(Map param) async{
+    Map data = await _attendanceNetWork.checkStudentInClass(param);
+    return data["existing"];
+  }
   void _onQRViewCreated(QRViewController controller){
     this.controller = controller;
     this.controller!.resumeCamera();
@@ -169,21 +173,27 @@ class _MyHomePageState extends State<MyHomePage> {
           'deviceId': userController.deviceId.value,
           'numClassPeriod': numClassPeriod
         };
-        if(await checkDeviceId(param) == true){
-          print("true");
-          var res = await _attendanceNetWork.attendance(param);
-          if(res["response"] == "success"){
-            print("success");
-            controller.pauseCamera();
-            dialog("Điểm danh thành công", "Bạn đã điểm danh thành công", "");
+        if(await checkStudentInClass(param) == false){
+          if(await checkDeviceId(param) == true){
+            print("true");
+            var res = await _attendanceNetWork.attendance(param);
+            if(res["response"] == "success"){
+              print("success");
+              controller.pauseCamera();
+              dialog("Điểm danh thành công", "Bạn đã điểm danh thành công", "");
+            }else{
+              controller.pauseCamera();
+              dialog("Điểm danh thất bại", "", "");
+            }
           }else{
             controller.pauseCamera();
-            dialog("Điểm danh thất bại", "", "");
+            dialog('Điểm danh thất bại','Thiết bị này đã điểm danh','Bạn không thể điểm danh quá 1 lần trong buổi điểm danh này!');
           }
         }else{
           controller.pauseCamera();
-          dialog('Điểm danh thất bại','Thiết bị này đã điểm danh','Bạn không thể điểm danh quá 1 lần trong buổi điểm danh này!');
+          dialog('Điểm danh thất bại','Sinh viên không có trong lớp học','Bạn không thuộc lớp học này!');
         }
+
 
       }
     });

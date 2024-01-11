@@ -70,4 +70,10 @@
     <select id="getSumClassPeriod" parameterType="map" resultType="map">
         SELECT SUM(NUM_CLASS_PERIOD) as sum FROM attendance WHERE attendance.USER_ID = #{userId} AND attendance.CLASS_ID = #{classId}
     </select>
+
+    <select id="checkStudentInClass" parameterType="map" resultType="integer">
+        SELECT COUNT(*) FROM user_class
+        WHERE USER_ID = #{userId}
+        AND CLASS_ID = #{classId}
+    </select>
 </mapper>

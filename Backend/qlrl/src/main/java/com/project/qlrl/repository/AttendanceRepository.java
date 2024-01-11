@@ -23,6 +23,7 @@ public interface AttendanceRepository {
 
     int countNumAttendanceOfStudent(Map<Object,Object> param);
     int countNumAttendanceLate(Map<Object,Object> param);
+    int checkStudentInClass(Map<Object,Object> param);
 
     Map<Object,Object> getSumClassPeriod(Map<Object,Object> param);
 }

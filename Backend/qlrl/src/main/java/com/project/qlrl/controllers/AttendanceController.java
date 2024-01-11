@@ -36,6 +36,10 @@ public class AttendanceController {
     public Map checkDeviceId(@RequestBody Map param){
         return attendanceService.checkDeviceId(param);
     }
+    @PostMapping("checkStudentInClass")
+    public Map checkStudentInClass(@RequestBody Map<Object,Object> param){
+        return attendanceService.checkStudentInClass(param);
+    }
 
     @GetMapping("getListAttendanceInLesson")
     public Map getListAttendanceInLesson(@RequestParam Map param){

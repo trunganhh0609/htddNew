@@ -173,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
           'deviceId': userController.deviceId.value,
           'numClassPeriod': numClassPeriod
         };
-        if(await checkStudentInClass(param) == false){
+        if(await checkStudentInClass(param) == true){
           if(await checkDeviceId(param) == true){
             print("true");
             var res = await _attendanceNetWork.attendance(param);

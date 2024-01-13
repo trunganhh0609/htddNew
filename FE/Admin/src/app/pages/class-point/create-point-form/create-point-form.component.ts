@@ -13,10 +13,10 @@ export class CreatePointFormComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<CreatePointFormComponent>) { }
 
   ngOnInit(): void {
-    // this.dataForm['half'] = '';
-    // this.dataForm['full'] = '';
+    this.dataForm['half'] = '10';
+    this.dataForm['full'] = '15';
     // this.dataForm['late'] = '';
-    this.dataForm['percentAbsen'] = '30';
+    // this.dataForm['percentAbsen'] = '30';
   }
 
   submit(){

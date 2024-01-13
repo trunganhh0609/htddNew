@@ -37,4 +37,10 @@ export class UserMngService {
     const url = ApiUrlUtil.buildQueryString(environment.apiURL + '/deleteUser');
     return this.http.post<any>(url, param, {headers});
   }
+
+  importStudentByEx(data:any){
+    const url = ApiUrlUtil.buildQueryString(environment.apiURL + '/importStudentByEx');
+    return this.http.post<any>(url, data);
+  }
+
 }

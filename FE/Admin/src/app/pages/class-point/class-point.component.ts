@@ -57,20 +57,21 @@ export class ClassPointComponent implements OnInit {
   caculateAndSubmitPoint(request: any){
     this.dataTable.forEach(element => {
       element['point']  = 10;
+      var perAbsenData = 100 - 100*(parseFloat(element['sumClassPeriod']) / parseFloat(element['totalCPInClass']))
+
       // const totalAttendance = parseFloat(element.totalAttendance);
       // const numAttendance = parseFloat(element.numAttendanceInClass)
       // const numLate = parseFloat(element.numAttendanceLate);
       // const numAbsent = Math.round( totalAttendance -  totalAttendance + numLate * parseFloat(request.late));
-      // if((totalAttendance - Math.round(numLate*parseFloat(request.late)) - numAttendance) >= request.half){
-      //     element['point'] = 5
-      // }
-      // if((totalAttendance - Math.round(numLate*parseFloat(request.late)) - numAttendance) >= Math.round(totalAttendance * 1/5)){
-      //   element['point'] = 0
-      // }
-      var perAbsenData = 100 - 100*(parseFloat(element['sumClassPeriod']) / parseFloat(element['totalCPInClass']))
-      if(perAbsenData >= parseFloat(request.percentAbsen)){
-        element['point'] = 0;
+      if(perAbsenData >= request.half){
+          element['point'] = 5
       }
+      if(perAbsenData >= request.full){
+        element['point'] = 0
+      }
+      // if(perAbsenData >= parseFloat(request.percentAbsen)){
+      //   element['point'] = 0;
+      // }
     });
     const param  = {
       classId: this.classInfo.classId,

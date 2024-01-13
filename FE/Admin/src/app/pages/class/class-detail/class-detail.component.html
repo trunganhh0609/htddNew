@@ -46,7 +46,7 @@
               </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item let-i="rowIndex">
-              <tr [class]= "roundData(100 - (item.sumClassPeriod/item.totalCPInClass)*100)>=30?'bg-warning':''">
+              <tr [class]= "roundData(100 - (item.sumClassPeriod/item.totalCPInClass)*100)>=30?'bg-warning-ban':''">
                 <th scope="row">{{ i+1 }}</th>
                 <td>{{ item.userName }}</td>
                 <td>{{ item.name }}</td>

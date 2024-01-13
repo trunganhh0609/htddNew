@@ -16,7 +16,10 @@
                   <p-dropdown [options]="roles" [(ngModel)]="selectedRoleId" optionLabel="name" optionValue="id" (onChange)="changeSearch($event)"></p-dropdown>
                 </div>
                 <div style="height:fit-content">
-                  <button class="btn btn-success" (click)="addUser()">Create new user</button>
+                  <button class="btn btn-info mx-3" (click)="addUser()">Thêm mới người dùng</button>
+                  <button class="btn btn-success" (click)="inputFile.click()">Thêm sinh viên bằng Excel</button>
+                  <input hidden type="file" (change)="addExcelStudent($event)" #inputFile accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+
                 </div>
             </div>
             </div>
@@ -44,7 +47,7 @@
                   <td>{{ item.gender  === true ? "Nam" : "Nữ" }}</td>
                   <td>{{ item.birthDate | date: 'dd/MM/yyyy' }}</td>
                   <td>{{ item.email }}</td>
-                  <td>{{ item.roleId }}</td>
+                  <td>{{ item.roleId === "ROLE001"? "Admin" : (item.roleId === "ROLE002"? "Giảng viên" : "Sinh viên") }}</td>
                   <td>
                     <div>
                       <i class="mx-1 bx bx-edit-alt fs-4 edit" (click)="edit(item)"></i>

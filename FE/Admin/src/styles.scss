@@ -41,5 +41,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: #dc3545;
 }
 
+.bg-warning-ban{
+  background-color: #ff1e1e59 !important
+}
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';

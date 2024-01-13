@@ -109,4 +109,31 @@ export class UserMngComponent implements OnInit {
       }
     });
   }
+
+  addExcelStudent(event:any){
+    let excelFile: File = event.target.files[0];
+    let formData:FormData = new FormData();
+    formData.append('file', excelFile);
+    this.userMngService.importStudentByEx(formData).subscribe(res=>{
+      console.log(res);
+      if(res.status){
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Thêm danh sách tài khoản sinh viên thành công',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.getData()
+      }else{
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Thêm danh sách tài khoản sinh viên thất bại! Vui lòng kiểm tra lại file của bạn',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    })
+  }
 }

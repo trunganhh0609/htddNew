@@ -4,10 +4,16 @@ import com.project.qlrl.common.TOTPUtils;
 import com.project.qlrl.models.User;
 import com.project.qlrl.repository.UserRepos;
 import com.project.qlrl.services.common.MailService;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,6 +31,7 @@ public class UserService {
 
     @Autowired
     MailService mailService;
+
 
     public User getUserByUserName(String param){
         return userRepos.getUserByUserName(param);
@@ -197,5 +204,41 @@ public class UserService {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Transactional
+    public void importExcelStudent(MultipartFile excelFile)throws Exception{
+        Map data = new HashMap<>();
+        data.put("fileName", excelFile.getOriginalFilename());
+        data.put("fileData", excelFile.getBytes());
+        try (Workbook workbook = new XSSFWorkbook(excelFile.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Lấy sheet đầu tiên
+            int index = 0;
+            DataFormatter formatter = new DataFormatter();
+            for (Row row : sheet) {
+                if (index < sheet.getLastRowNum()){
+                    index++;
+                    if(index > 1){
+                        User user = new User();
+                        String studentId = formatter.formatCellValue(row.getCell(1));
+                        if(userRepos.checkUserNameExist(studentId) == 0){
+                            user.setUserName(studentId);
+                            user.setName(row.getCell(2).toString());
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String date =  row.getCell(3).toString();
+                            Date dateBirth = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                            user.setBirthDate(dateFormat.format(dateBirth));
+                            user.setGender(row.getCell(4).toString().equals("Nam")? true:false);
+                            user.setEmail(row.getCell(5).toString());
+                            user.setPassword(passwordEncoder.encode("123456"));
+                            user.setRole("ROLE003");
+                            userRepos.addUser(user);
+                        }
+                    }
+                }
+
+            }
+        }
+
     }
 }

@@ -2,18 +2,7 @@
   <h5 class="modal-title mt-0 fs-4">Công thức tính điểm chuyên cần</h5>
 </div>
 <div class="modal-body">
-  <div class="col-md-12 mb-3">
-    <div class="d-flex">
-      <h4 class="py-2" style= "margin-bottom: 0;">Cảnh báo đỏ( 0 điểm ) nếu số tiết nghỉ quá&nbsp;</h4>
-      <div class="col-md-2">
-        <input #percentAbsen="ngModel" type="number" [(ngModel)]="dataForm['percentAbsen']" name="percentAbsen" required
-        [ngClass]="{ 'is-invalid': (submitted && percentAbsen.invalid) || (percentAbsen.invalid && (percentAbsen.dirty || percentAbsen.touched))}"
-        class="form-control" id="percentAbsen"/>
-      </div>
-      <h4 class="py-2" style= "margin-bottom: 0;">%&nbsp;</h4>
-    </div>
-  </div>
-    <!-- <div class="col-md-12 mb-3">
+    <div class="col-md-12 mb-3">
       <div class="d-flex">
         <h4 class="py-2" style= "margin-bottom: 0;">Trừ 5 điểm nếu số buổi nghỉ quá&nbsp;</h4>
         <div class="col-md-2">
@@ -21,10 +10,21 @@
           [ngClass]="{ 'is-invalid': (submitted && timeReset.invalid) || (timeReset.invalid && (timeReset.dirty || timeReset.touched))}"
           class="form-control" id="timeReset"/>
         </div>
-        <h4 class="py-2" style= "margin-bottom: 0;">buổi&nbsp;</h4>
+        <h4 class="py-2" style= "margin-bottom: 0;">% Tổng số tiết giảng viên điểm danh&nbsp;</h4>
       </div>
     </div>
     <div class="col-md-12 mb-3">
+      <div class="d-flex">
+        <h4 class="py-2" style= "margin-bottom: 0;">Trừ 10 điểm nếu số buổi nghỉ quá&nbsp;</h4>
+        <div class="col-md-2">
+          <input #full="ngModel" type="number" [(ngModel)]="dataForm['full']" name="full" required
+          [ngClass]="{ 'is-invalid': (submitted && full.invalid) || (full.invalid && (full.dirty || full.touched))}"
+          class="form-control" id="full"/>
+        </div>
+        <h4 class="py-2" style= "margin-bottom: 0;">% Tổng số tiết giảng viên điểm danh&nbsp;</h4>
+      </div>
+    </div>
+    <!-- <div class="col-md-12 mb-3">
       <div class="d-flex">
         <h4 class="py-2" style= "margin-bottom: 0;">Một buổi đi muộn bằng &nbsp;</h4>
         <div class="col-md-2">
@@ -36,14 +36,14 @@
         <h4 class="py-2" style= "margin-bottom: 0;">&nbsp;buổi&nbsp;</h4>
 
       </div>
-    </div>
-    <div class="row col-md-12 mb-3">
+    </div> -->
+    <!-- <div class="row col-md-12 mb-3">
       <h4 class="py-2" style= "margin-bottom: 0;">Trừ 10 điểm nếu số buổi nghỉ quá 20% tổng số buổi học</h4>
-    </div>
+    </div> -->
 
     <div class="row col-md-12 mb-3">
-      <h4 class="py-2" style= "margin-bottom: 0;">Đạt 10 điểm nếu số buổi nghỉ không quá {{dataForm['half']}}</h4>
-    </div> -->
+      <h4 class="py-2" style= "margin-bottom: 0;">Đạt 10 điểm nếu số buổi nghỉ không quá {{dataForm['half']}}%</h4>
+    </div>
 
   </div>
 <div class="modal-footer">

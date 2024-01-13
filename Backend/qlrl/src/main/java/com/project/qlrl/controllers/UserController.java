@@ -65,4 +65,17 @@ public class UserController {
     public Map<Object,Object> changePassword(@RequestBody Map param){
         return userService.changePassword(param);
     }
+
+    @PostMapping("importStudentByEx")
+    public Map<Object,Object> importExcelStudent(@RequestParam("file") MultipartFile file) throws Exception {
+        Map<Object,Object> result = new HashMap<>();
+        try {
+            userService.importExcelStudent(file);
+            result.put("status", true);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("status", false);
+        }
+        return result;
+    }
 }

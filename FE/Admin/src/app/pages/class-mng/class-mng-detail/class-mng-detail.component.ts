@@ -107,8 +107,6 @@ export class ClassMngDetailComponent implements OnInit {
   }
 
   onChangeFile(event:any){
-    console.log("fsf");
-
     let excelFile: File = event.target.files[0];
     // console.log(excelFile);
     let formData:FormData = new FormData();

@@ -57,7 +57,7 @@ class AttendanceNetWork{
     String token = '';
     token = (await pref.getString("Token"))!;
     final Response response = await http.post(
-        Uri.parse('${url}checkDeviceId'),
+        Uri.parse('${url}checkStudentInClass'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': "Bearer " + token
